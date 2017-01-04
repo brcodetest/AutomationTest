@@ -60,33 +60,30 @@ public class Utilities {
     }
 
     public String AdbCommand(String cmd){
-       /* Runtime.getRuntime().exec(comm + " --user 0");
-        Thread.sleep(1500);*/
 
         String s = null;
         try {
-            Process p = Runtime.getRuntime().exec(cmd + " --user 0");
+            Process p = Runtime.getRuntime().exec(cmd);
 
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(
+                    p.getInputStream()));
 
-            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+            BufferedReader stdError = new BufferedReader(new InputStreamReader(
+                    p.getErrorStream()));
 
             // read the output from the cmd
             String result = "";
             while ((s = stdInput.readLine()) != null) {
                 result = result + s;
             }
+
             // read any errors from the attempted comd
             while ((s = stdError.readLine()) != null) {
                 System.out.println(s);
             }
-            if((s = stdInput.readLine()) == null)
-            {
-                result = "Comando não retornou valores";
-            }
             return result;
-        }
-        catch (IOException e) {
+
+        } catch (IOException e) {
             System.out.println("exception here's what I know: ");
             e.printStackTrace();
             return "Exception occurred";

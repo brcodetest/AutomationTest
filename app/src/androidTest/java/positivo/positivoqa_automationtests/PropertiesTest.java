@@ -91,8 +91,6 @@ public class PropertiesTest {
             System.out.print(e.toString());
         }
 
-
-
     }
 
     @Test
