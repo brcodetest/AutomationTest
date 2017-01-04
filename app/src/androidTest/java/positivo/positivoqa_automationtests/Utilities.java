@@ -150,8 +150,9 @@ public class Utilities {
 
     }
 
-    public void SwipeUntilFindElement(String element){
+    public void SwipeUntilFindElementAndClick(String element){
         try{
+            Thread.sleep(500);
             UiScrollable settingsItem = new UiScrollable(new UiSelector().className("android.widget.ScrollView"));
             UiObject about = settingsItem.getChildByText(new UiSelector().className("android.widget.LinearLayout"), element);
             device.findObject(By.clazz("android.widget.TextView").text(element)).click();
