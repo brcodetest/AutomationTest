@@ -22,7 +22,7 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("positivo.positivoqa_automationtests", appContext.getPackageName());
-        
-        System.out.print("Testando github");
+
+        System.out.print("Testando github 123 teste orlando");
     }
 }
