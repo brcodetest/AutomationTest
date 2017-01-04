@@ -61,7 +61,7 @@ public class GoogleTest {
         if(util.CheckInternetConnection(this.context) == true)
         {
             util.OpenAppsFromMenu("Configurar");
-            util.SwipeUntilFindElement("Contas");
+            util.SwipeUntilFindElementAndClick("Contas");
             device.findObject(By.clazz("android.widget.TextView").textStartsWith("Adicionar")).click();
 
             device.findObject(By.clazz("android.widget.TextView").text("Google")).click();
