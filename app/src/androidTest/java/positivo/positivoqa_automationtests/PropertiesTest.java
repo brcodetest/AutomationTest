@@ -96,11 +96,42 @@ public class PropertiesTest {
     @Test
     public  void CheckSecurityPathInAbout(){
         util.OpenAppsFromMenu("Configurar");
-        util.SwipeUntilFindElement("Sobre o telefone");
+        util.SwipeUntilFindElementAndClick("Sobre o telefone");
         device.wait(Until.hasObject(By.clazz("android.widget.TextView").textContains("Nível do patch")), timeout);
         UiObject2 sp = device.findObject(By.clazz("android.widget.TextView").textContains("Nível do patch"));
         Assert.assertTrue("Security path não encontrado no menu Sobre", sp.isEnabled());
 
+    }
+
+    @Test
+    public void CheckModelNumberInAbout(){
+        String modelQuantum = "";
+        String modelPositivo = "";
+
+
+        String modelNumber = util.AdbCommand("getprop ro.product.model");
+
+        util.OpenAppsFromMenu("Configurar");
+        util.SwipeUntilFindElementAndClick("Sobre o telefone");
+        device.wait(Until.hasObject(By.clazz("android.widget.TextView").textContains("Número do modelo")), timeout);
+
+        try {
+            modelQuantum = device.findObject(By.clazz("android.widget.TextView").textStartsWith("Quantum")).getText();
+            modelPositivo = device.findObject(By.clazz("android.widget.TextView").textStartsWith("Positivo")).getText();
+        }
+        catch (Exception e){
+            Assert.assertEquals(1, 1);
+        }
+
+        String modelAbout = "";
+
+        if(modelQuantum != ""){
+            modelAbout = modelQuantum;
+        }
+        if(modelPositivo != ""){
+            modelAbout = modelPositivo;
+        }
+        Assert.assertEquals("ro.product.model é diferente do 'Sobre' o telefone", modelNumber, modelAbout);
     }
 
 
