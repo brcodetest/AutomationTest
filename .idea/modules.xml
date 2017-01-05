@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PositivoQA-AutomationTests.iml" filepath="$PROJECT_DIR$/PositivoQA-AutomationTests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AutomationTest.iml" filepath="$PROJECT_DIR$/AutomationTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
