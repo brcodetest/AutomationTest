@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Random;
 
+import static java.lang.Thread.sleep;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -46,7 +47,7 @@ public class GoogleTest {
     Context context;
     long timeout = util.timeout;
 
-    /*public GoogleTest(Context context) {
+   /*public GoogleTest(Context context) {
         this.context = context;
     }*/
 
@@ -57,36 +58,71 @@ public class GoogleTest {
         util.UnlockDevice();}
 
     @Test
-    public void LoginGoogleAccount(){
+    public void LoginGoogleAccount() throws Exception {
+
         if(util.CheckInternetConnection(this.context) == true)
         {
-            util.OpenAppsFromMenu("Configurar");
-            util.SwipeUntilFindElementAndClick("Contas");
-            device.findObject(By.clazz("android.widget.TextView").textStartsWith("Adicionar")).click();
+            if(util.ValidateGMSversion(context) == true){
 
-            device.findObject(By.clazz("android.widget.TextView").text("Google")).click();
-            device.waitForWindowUpdate("com.google.android.gms", timeout);
+                util.OpenAppsFromMenu("Configurar");
+                util.SwipeUntilFindElementAndClick("Contas");
 
-            device.findObject(By.res("com.google.android.gms", "identifierId")).setText("brcodetest");
+                device.wait(Until.hasObject(By.text("Adicionar conta")), 4000);
+                UiObject2 adConta = device.findObject(By.text("Adicionar conta"));
+                adConta.click();
 
-            device.wait(Until.hasObject(By.res("com.google.android.gms", "identifierNext")), timeout);
-            device.findObject(By.res("com.google.android.gms", "identifierNext")).click();
+                sleep(2000);
 
-            device.wait(Until.hasObject(By.res("com.google.android.gms", "password")), timeout);
-            device.findObject(By.res("com.google.android.gms", "password")).setText("brc0d3test");
+                device.wait(Until.hasObject(By.clazz("android.widget.TextView").text("Google")), 2000);
+                UiObject2 selGoogle = device.findObject(By.clazz("android.widget.TextView").text("Google"));
+                selGoogle.click();
 
-            device.wait(Until.hasObject(By.res("com.google.android.gms", "passwordNext")), timeout);
-            device.findObject(By.res("com.google.android.gms", "passwordNext")).click();
+                sleep(10000);
 
-            device.wait(Until.hasObject(By.res("com.google.android.gms", "next")), timeout);
-            device.findObject(By.res("com.google.android.gms", "next")).click();
+                device.wait(Until.hasObject(By.res("identifierId")), timeout);
+                device.findObject(By.res("identifierId")).click();
+                device.findObject(By.res("identifierId")).setText("brcodetest");
 
+                sleep(2000);
+
+                device.wait(Until.hasObject(By.res("identifierNext")), timeout);
+                device.findObject(By.res("identifierNext")).click();
+
+                sleep(1000);
+
+                device.wait(Until.hasObject(By.res("password")), timeout);
+                device.findObject(By.res("password")).click();
+                device.findObject(By.res("password")).setText("brc0d3test");
+
+
+                device.wait(Until.hasObject(By.desc("PRÓXIMA")), timeout);
+                UiObject2 passNxt = device.findObject(By.desc("PRÓXIMA"));
+                passNxt.click();
+
+                Thread.sleep(5000);
+
+                device.wait(Until.hasObject(By.desc("ACEITAR")), 3000);
+                UiObject2 acntNxt = device.findObject(By.desc("ACEITAR"));
+                acntNxt.click();
+
+                device.waitForWindowUpdate("com.google.android.gms", 20000);
+
+                device.wait(Until.hasObject(By.text( "Próximo")), timeout);
+                UiObject2 prox = device.findObject(By.text("Próximo"));
+                prox.click();
+
+             }
+            else
+            {
+                Assert.fail("Versão do GMS está desatualizada!");
+            }
         }
 
         else
         {
             Assert.fail("Sem conexão com a internet!");
         }
+
 
     }
 }

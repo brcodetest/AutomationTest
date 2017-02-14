@@ -36,7 +36,7 @@ public class CalculatorTest {
 
         util.OpenAppsFromMenu("Calculadora");
 
-        device.wait(Until.hasObject(By.text("9")), 3000);
+        device.wait(Until.hasObject(By.text("9")), 1000);
 
         UiObject2 buttonNine = device.findObject(By.text("9"));
 
@@ -50,7 +50,7 @@ public class CalculatorTest {
 
         buttonEquals.click();
 
-        device.waitForIdle(3000);
+        device.waitForIdle(1000);
 
         UiObject2 resultText = device.findObject(By.clazz("android.widget.EditText"));
         String result = resultText.getText();

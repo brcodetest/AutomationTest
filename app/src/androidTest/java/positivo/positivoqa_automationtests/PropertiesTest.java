@@ -104,7 +104,7 @@ public class PropertiesTest {
     }
 
     @Test
-    public void CheckModelNumberInAbout(){
+    public void CheckModelNumberInAbout() throws InterruptedException{
         String modelQuantum = "";
         String modelPositivo = "";
 
@@ -112,6 +112,7 @@ public class PropertiesTest {
         String modelNumber = util.AdbCommand("getprop ro.product.model");
 
         util.OpenAppsFromMenu("Configurar");
+        Thread.sleep(500);
         util.SwipeUntilFindElementAndClick("Sobre o telefone");
         device.wait(Until.hasObject(By.clazz("android.widget.TextView").textContains("Número do modelo")), timeout);
 

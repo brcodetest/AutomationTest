@@ -7,11 +7,10 @@ package positivo.positivoqa_automationtests;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import android.content.pm.PackageManager;
 import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -161,6 +160,22 @@ public class Utilities {
         catch (Exception e){
             System.out.print(e.toString());
         }
+    }
+
+    public boolean ValidateGMSversion(Context con){
+        int versionGms = 0;
+        try {
+           versionGms = con.getPackageManager().getPackageInfo("com.google.android.gms", 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if(versionGms < 10000000)
+        {
+            return false;
+        }
+
+        return true;
     }
 
 
