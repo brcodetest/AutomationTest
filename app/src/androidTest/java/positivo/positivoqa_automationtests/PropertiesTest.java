@@ -84,7 +84,7 @@ public class PropertiesTest {
 
             if(dataSecurityPath.before(validadeSecurityPath))
             {
-                Assert.fail("Security path vencido!");
+                Assert.fail("Security patch vencido!");
             }
         }
         catch (Exception e){

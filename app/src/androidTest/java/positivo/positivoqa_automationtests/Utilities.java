@@ -109,7 +109,9 @@ public class Utilities {
         }
     }
 
-    public void AllowPermissionsIfNeeded() {
+    public void AllowPermissionsIfNeeded(){
+
+        device.wait(Until.hasObject(By.text("Permitir")), timeout);
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         if (Build.VERSION.SDK_INT >= 23) {
             UiObject allowPermissions = device.findObject(new UiSelector().text("Permitir"));
@@ -153,7 +155,7 @@ public class Utilities {
         try{
             Thread.sleep(500);
             UiScrollable settingsItem = new UiScrollable(new UiSelector().className("android.widget.ScrollView"));
-            UiObject about = settingsItem.getChildByText(new UiSelector().className("android.widget.LinearLayout"), element);
+            settingsItem.getChildByText(new UiSelector().className("android.widget.LinearLayout"), element);
             device.findObject(By.clazz("android.widget.TextView").text(element)).click();
 
         }

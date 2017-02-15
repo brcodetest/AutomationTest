@@ -73,26 +73,26 @@ public class GoogleTest {
 
                 sleep(2000);
 
-                device.wait(Until.hasObject(By.clazz("android.widget.TextView").text("Google")), 2000);
+                device.wait(Until.hasObject(By.clazz("android.widget.TextView").text("Google")), timeout);
                 UiObject2 selGoogle = device.findObject(By.clazz("android.widget.TextView").text("Google"));
                 selGoogle.click();
 
                 sleep(10000);
-
-                device.wait(Until.hasObject(By.res("identifierId")), timeout);
-                device.findObject(By.res("identifierId")).click();
-                device.findObject(By.res("identifierId")).setText("brcodetest");
+                device.waitForWindowUpdate("com.google.android.gms", 10000);
+                device.wait(Until.hasObject(By.res("com.google.android.gms", "identifierId")), timeout);
+                device.findObject(By.res("com.google.android.gms", "identifierId")).click();
+                device.findObject(By.res("com.google.android.gms", "identifierId")).setText("brcodetest");
 
                 sleep(2000);
 
                 device.wait(Until.hasObject(By.res("identifierNext")), timeout);
                 device.findObject(By.res("identifierNext")).click();
 
-                sleep(1000);
+                sleep(10000);
 
-                device.wait(Until.hasObject(By.res("password")), timeout);
-                device.findObject(By.res("password")).click();
-                device.findObject(By.res("password")).setText("brc0d3test");
+                device.wait(Until.hasObject(By.res("com.google.android.gms", "password")), timeout);
+                device.findObject(By.res("com.google.android.gms", "password")).click();
+                device.findObject(By.res("com.google.android.gms", "password")).setText("brc0d3test");
 
 
                 device.wait(Until.hasObject(By.desc("PRÓXIMA")), timeout);
