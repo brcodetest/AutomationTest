@@ -1,4 +1,4 @@
-package positivo.positivoqa_automationtests;
+package positivo.qa_automation;
 
 /**
  * Created by Emanuel on 08/12/2016.

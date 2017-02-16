@@ -1,4 +1,4 @@
-package positivo.positivoqa_automationtests;
+package positivo.qa_automation;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

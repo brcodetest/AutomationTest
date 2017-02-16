@@ -1,10 +1,9 @@
-package positivo.positivoqa_automationtests;
+package positivo.qa_automation;
 
 /**
  * Created by Emanuel on 24/11/2016.
  */
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,9 +11,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObject2;
-import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
 
 
