@@ -64,11 +64,9 @@ public class Utilities {
         try {
             Process p = Runtime.getRuntime().exec(cmd);
 
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(
-                    p.getInputStream()));
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-            BufferedReader stdError = new BufferedReader(new InputStreamReader(
-                    p.getErrorStream()));
+            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
             // read the output from the cmd
             String result = "";

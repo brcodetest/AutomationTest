@@ -29,7 +29,7 @@ public class CalculatorTest {
 }
 
     @Test
-    public void TestMakeBasicOperations() throws Exception {
+    public void MakeBasicOperations() throws Exception {
 
         util.OpenAppsFromMenu("Calculadora");
 

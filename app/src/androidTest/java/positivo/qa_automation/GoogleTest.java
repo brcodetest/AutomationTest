@@ -4,7 +4,10 @@ import android.content.Context;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 
 import android.support.test.InstrumentationRegistry;
@@ -12,9 +15,12 @@ import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject2;
 import android.support.test.uiautomator.Until;
+import android.util.Log;
 
 
 import junit.framework.Assert;
+
+import java.util.logging.Logger;
 
 import static java.lang.Thread.sleep;
 import static org.junit.Assert.assertTrue;
@@ -29,6 +35,8 @@ public class GoogleTest {
     Utilities util = new Utilities();
     Context context;
     long timeout = util.timeout;
+    private static StringBuilder builder = new StringBuilder();
+    private static final String EOL = System.getProperty("line.separator");
 
    /*public GoogleTest(Context context) {
         this.context = context;
@@ -39,6 +47,32 @@ public class GoogleTest {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         context = InstrumentationRegistry.getTargetContext();
         util.UnlockDevice();}
+
+    @Rule
+    public TestWatcher watchman = new TestWatcher() {
+
+        @Override
+        protected void failed(Throwable e, Description description) {
+            if (description != null) {
+                builder.append(description);
+            }
+            if (e != null) {
+                builder.append(' ');
+                builder.append(e);
+            }
+            builder.append(" FAIL");
+            builder.append(EOL);
+        }
+
+        @Override
+        protected void succeeded(Description description) {
+            if (description != null) {
+                builder.append(description);
+            }
+            builder.append(" OK");
+            builder.append(EOL);
+        }
+    };
 
     @Test
     public void LoginGoogleAccount() throws Exception {
@@ -98,12 +132,14 @@ public class GoogleTest {
             else
             {
                 Assert.fail("Versão do GMS está desatualizada!");
+
             }
         }
 
         else
         {
             Assert.fail("Sem conexão com a internet!");
+
         }
 
 
