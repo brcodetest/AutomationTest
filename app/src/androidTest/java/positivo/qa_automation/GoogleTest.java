@@ -19,6 +19,7 @@ import android.util.Log;
 
 
 import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
 
 import java.util.logging.Logger;
 
@@ -77,71 +78,75 @@ public class GoogleTest {
     @Test
     public void LoginGoogleAccount() throws Exception {
 
-        if(util.CheckInternetConnection(this.context) == true)
-        {
-            if(util.ValidateGMSversion(context) == true){
+        try {
 
-                util.OpenAppsFromMenu("Configurar");
-                util.SwipeUntilFindElementAndClick("Contas");
+            if (util.CheckInternetConnection(this.context) == true) {
+                if (util.ValidateGMSversion(context) == true) {
 
-                device.wait(Until.hasObject(By.text("Adicionar conta")), 4000);
-                UiObject2 adConta = device.findObject(By.text("Adicionar conta"));
-                adConta.click();
+                    util.OpenAppsFromMenu("Configurar");
+                    util.SwipeUntilFindElementAndClick("Contas");
 
-                sleep(2000);
+                    device.wait(Until.hasObject(By.text("Adicionar conta")), 4000);
+                    UiObject2 adConta = device.findObject(By.text("Adicionar conta"));
+                    adConta.click();
 
-                device.wait(Until.hasObject(By.clazz("android.widget.TextView").text("Google")), timeout);
-                UiObject2 selGoogle = device.findObject(By.clazz("android.widget.TextView").text("Google"));
-                selGoogle.click();
+                    sleep(2000);
 
-                sleep(10000);
-                device.waitForWindowUpdate("com.google.android.gms", 10000);
-                device.wait(Until.hasObject(By.res("com.google.android.gms", "identifierId")), timeout);
-                device.findObject(By.res("com.google.android.gms", "identifierId")).click();
-                device.findObject(By.res("com.google.android.gms", "identifierId")).setText("brcodetest");
+                    device.wait(Until.hasObject(By.clazz("android.widget.TextView").text("Google")), timeout);
+                    UiObject2 selGoogle = device.findObject(By.clazz("android.widget.TextView").text("Google"));
+                    selGoogle.click();
 
-                sleep(2000);
+                    sleep(1000);
+                    device.waitForWindowUpdate("com.google.android.gms", 10000);
+                    device.wait(Until.hasObject(By.res("com.google.android.gms", "identifierId")), timeout);
 
-                device.wait(Until.hasObject(By.res("identifierNext")), timeout);
-                device.findObject(By.res("identifierNext")).click();
+                    UiObject2 email = device.findObject(By.res("com.google.android.gms", "identifierId"));
+                    email.click();
+                    email.setText("brcodetest");
 
-                sleep(10000);
+                    sleep(2000);
 
-                device.wait(Until.hasObject(By.res("com.google.android.gms", "password")), timeout);
-                device.findObject(By.res("com.google.android.gms", "password")).click();
-                device.findObject(By.res("com.google.android.gms", "password")).setText("brc0d3test");
+                    device.wait(Until.hasObject(By.res("identifierNext")), timeout);
+                    device.findObject(By.res("identifierNext")).click();
+
+                    sleep(10000);
+
+                    device.wait(Until.hasObject(By.res("com.google.android.gms", "password")), timeout);
+                    device.findObject(By.res("com.google.android.gms", "password")).click();
+                    device.findObject(By.res("com.google.android.gms", "password")).setText("brc0d3test");
 
 
-                device.wait(Until.hasObject(By.desc("PRÓXIMA")), timeout);
-                UiObject2 passNxt = device.findObject(By.desc("PRÓXIMA"));
-                passNxt.click();
+                    device.wait(Until.hasObject(By.desc("PRÓXIMA")), timeout);
+                    UiObject2 passNxt = device.findObject(By.desc("PRÓXIMA"));
+                    passNxt.click();
 
-                Thread.sleep(5000);
+                    Thread.sleep(5000);
 
-                device.wait(Until.hasObject(By.desc("ACEITAR")), 3000);
-                UiObject2 acntNxt = device.findObject(By.desc("ACEITAR"));
-                acntNxt.click();
+                    device.wait(Until.hasObject(By.desc("ACEITAR")), 3000);
+                    UiObject2 acntNxt = device.findObject(By.desc("ACEITAR"));
+                    acntNxt.click();
 
-                device.waitForWindowUpdate("com.google.android.gms", 20000);
+                    device.waitForWindowUpdate("com.google.android.gms", 20000);
 
-                device.wait(Until.hasObject(By.text( "Próximo")), timeout);
-                UiObject2 prox = device.findObject(By.text("Próximo"));
-                prox.click();
+                    device.wait(Until.hasObject(By.text("Próximo")), timeout);
+                    UiObject2 prox = device.findObject(By.text("Próximo"));
+                    prox.click();
 
-             }
-            else
-            {
-                Assert.fail("Versão do GMS está desatualizada!");
+                } else {
+                    Assert.fail("Versão do GMS está desatualizada!");
+
+                }
+            } else {
+                Assert.fail("Sem conexão com a internet!");
 
             }
         }
 
-        else
+        catch (Exception e)
         {
-            Assert.fail("Sem conexão com a internet!");
+            Assert.fail(e.toString());
 
         }
-
 
     }
 }
