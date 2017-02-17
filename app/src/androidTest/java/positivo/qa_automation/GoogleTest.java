@@ -49,32 +49,6 @@ public class GoogleTest {
         context = InstrumentationRegistry.getTargetContext();
         util.UnlockDevice();}
 
-    @Rule
-    public TestWatcher watchman = new TestWatcher() {
-
-        @Override
-        protected void failed(Throwable e, Description description) {
-            if (description != null) {
-                builder.append(description);
-            }
-            if (e != null) {
-                builder.append(' ');
-                builder.append(e);
-            }
-            builder.append(" FAIL");
-            builder.append(EOL);
-        }
-
-        @Override
-        protected void succeeded(Description description) {
-            if (description != null) {
-                builder.append(description);
-            }
-            builder.append(" OK");
-            builder.append(EOL);
-        }
-    };
-
     @Test
     public void LoginGoogleAccount() throws Exception {
 
