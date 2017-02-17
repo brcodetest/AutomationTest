@@ -7,6 +7,11 @@ package positivo.qa_automation;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.bluetooth.BluetoothClass;
 import android.content.Context;
@@ -26,8 +31,10 @@ import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiScrollable;
 import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
-import android.support.v7.widget.ThemedSpinnerAdapter;
+import android.support.v4.app.NotificationCompat;
 import android.net.ConnectivityManager;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 
 public class Utilities {
@@ -96,7 +103,7 @@ public class Utilities {
             Thread.sleep(500);
 
             UiScrollable settingsItem = new UiScrollable(new UiSelector().className("android.support.v7.widget.RecyclerView"));
-            UiObject about = settingsItem.getChildByText(new UiSelector().className("android.widget.TextView"), appName);
+            settingsItem.getChildByText(new UiSelector().className("android.widget.TextView"), appName);
             device.findObject(By.clazz("android.widget.TextView").text(appName));
 
             device.findObject(By.text(appName)).click();
@@ -178,5 +185,16 @@ public class Utilities {
         return true;
     }
 
+    public void SendNotification(Context con){
+
+        NotificationManager notificationManager = (NotificationManager)con.getSystemService(NOTIFICATION_SERVICE);
+
+        Notification n  = new Notification.Builder(con)
+                .setContentTitle("Automation")
+                .setContentText("This is a notification created by Automation!")
+                .setSmallIcon(R.drawable.ic_stat_name).build();
+        notificationManager.notify(0, n);
+
+    }
 
 }
