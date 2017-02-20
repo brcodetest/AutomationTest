@@ -197,4 +197,23 @@ public class Utilities {
 
     }
 
+    public void SwipeNotificationBar() throws Exception{
+
+        UiObject screen;
+        screen = new UiObject(new UiSelector().resourceId("com.android.launcher3:id/workspace"));
+        screen.swipeDown(5);
+
+    }
+
+    public void SwipeQuickSettingsBar() throws Exception{
+
+        UiObject screen;
+        screen = new UiObject(new UiSelector().resourceId("com.android.launcher3:id/workspace"));
+        screen.swipeDown(5);
+
+        UiObject header;
+        header = new UiObject(new UiSelector().resourceId("com.android.systemui:id/header"));
+        header.swipeDown(5);
+    }
+
 }

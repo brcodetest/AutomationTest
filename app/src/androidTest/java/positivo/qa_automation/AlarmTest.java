@@ -65,12 +65,6 @@ public class AlarmTest {
     @Test
     public void DeleteAlarm() throws Exception{
 
-
-        UiObject tela = new UiObject(new UiSelector().resourceId("com.android.deskclock:id/alarms_list"));
-        tela.swipeUp(5);
-
-        device.findObject(By.desc("Excluir alarme")).click();
-
         Thread.sleep(800);
 
         device.findObject(By.descStartsWith("Expandir alarme")).click();
@@ -88,6 +82,12 @@ public class AlarmTest {
         device.findObject(By.desc("Excluir alarme")).click();
 
         Thread.sleep(800);
+
+        device.findObject(By.descStartsWith("Expandir alarme")).click();
+
+        Thread.sleep(800);
+
+        device.findObject(By.desc("Excluir alarme")).click();
 
         String alarme = device.findObject(By.descStartsWith("Nenhum alarme")).getText();
 

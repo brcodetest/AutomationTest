@@ -88,7 +88,7 @@ public class PropertiesTest {
     }
 
     @Test
-    public void CheckModelNumberInAbout() throws InterruptedException{
+    public void CheckModelNumberInAbout() throws Exception{
         String modelQuantum = "";
         String modelPositivo = "";
 
@@ -116,7 +116,7 @@ public class PropertiesTest {
         if(modelPositivo != ""){
             modelAbout = modelPositivo;
         }
-        Assert.assertEquals("ro.product.model é diferente do 'Sobre' o telefone", modelNumber, modelAbout);
+        Assert.assertEquals("ro.product.model é diferente do menu 'Sobre o telefone'", modelNumber, modelAbout);
     }
 
 
