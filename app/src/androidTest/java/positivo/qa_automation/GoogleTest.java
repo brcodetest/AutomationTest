@@ -66,7 +66,7 @@ public class GoogleTest {
                 if (util.ValidateGMSversion(context) == true) {
 
                     util.OpenAppsFromMenu("Configurar");
-                    util.SwipeUntilFindElementAndClick("Contas");
+                    util.SwipeUntilFindElementAndClick("ScrollView", "Contas");
 
                     device.wait(Until.hasObject(By.text("Adicionar conta")), 4000);
                     UiObject2 adConta = device.findObject(By.text("Adicionar conta"));

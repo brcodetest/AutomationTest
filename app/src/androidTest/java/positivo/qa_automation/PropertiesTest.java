@@ -88,7 +88,7 @@ public class PropertiesTest {
     @Test
     public  void CheckSecurityPathInAbout(){
         util.OpenAppsFromMenu("Configurar");
-        util.SwipeUntilFindElementAndClick("Sobre o telefone");
+        util.SwipeUntilFindElementAndClick("ScrollView", "Sobre o telefone");
         device.wait(Until.hasObject(By.clazz("android.widget.TextView").textContains("Nível do patch")), timeout);
         UiObject2 sp = device.findObject(By.clazz("android.widget.TextView").textContains("Nível do patch"));
         Assert.assertTrue("Security path não encontrado no menu Sobre", sp.isEnabled());
@@ -105,7 +105,7 @@ public class PropertiesTest {
 
         util.OpenAppsFromMenu("Configurar");
         Thread.sleep(500);
-        util.SwipeUntilFindElementAndClick("Sobre o telefone");
+        util.SwipeUntilFindElementAndClick("ScrollView", "Sobre o telefone");
         device.wait(Until.hasObject(By.clazz("android.widget.TextView").textContains("Número do modelo")), timeout);
 
         try {

@@ -163,10 +163,14 @@ public class Utilities {
 
     }
 
-    public void SwipeUntilFindElementAndClick(String element){
+    /**
+     * @param type ScrollView ou ListView
+     * @param element Nome do elemento
+     * */
+    public void SwipeUntilFindElementAndClick(String type, String element){
         try{
             Thread.sleep(500);
-            UiScrollable settingsItem = new UiScrollable(new UiSelector().className("android.widget.ScrollView"));
+            UiScrollable settingsItem = new UiScrollable(new UiSelector().className("android.widget." + type));
             settingsItem.getChildByText(new UiSelector().className("android.widget.LinearLayout"), element);
             device.findObject(By.clazz("android.widget.TextView").text(element)).click();
 
@@ -223,6 +227,9 @@ public class Utilities {
         header.swipeDown(5);
     }
 
+    /**
+     * @param findObjectBy text ou description
+     * */
     public void LongClick(String findObjectBy, String name, int steps) throws Exception{
 
         if(findObjectBy == "text"){
