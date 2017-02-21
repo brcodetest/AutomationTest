@@ -3,6 +3,7 @@ package positivo.qa_automation;
 import android.content.Context;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +37,12 @@ public class PropertiesTest {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         context = InstrumentationRegistry.getTargetContext();
         util.UnlockDevice();
+    }
+
+    @AfterClass
+    public static void TearDown() throws Exception{
+
+        Thread.sleep(1000);
     }
 
     @Test

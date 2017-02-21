@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.provider.Settings;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -42,6 +43,12 @@ public class CameraTest {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         context = InstrumentationRegistry.getTargetContext();
         util.UnlockDevice();}
+
+    @AfterClass
+    public static void TearDown() throws Exception{
+
+        Thread.sleep(1000);
+    }
 
     @Test
     public void FrontCamera_ContinuousShot(){

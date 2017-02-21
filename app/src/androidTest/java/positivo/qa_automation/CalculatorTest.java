@@ -4,6 +4,7 @@ package positivo.qa_automation;
  * Created by Emanuel on 24/11/2016.
  */
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,12 @@ public class CalculatorTest {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         util.UnlockDevice();
 }
+
+    @AfterClass
+    public static void TearDown() throws Exception{
+
+        Thread.sleep(1000);
+    }
 
     @Test
     public void MakeBasicOperations() throws Exception {
