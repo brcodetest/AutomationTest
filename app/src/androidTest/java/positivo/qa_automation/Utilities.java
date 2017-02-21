@@ -16,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.graphics.Rect;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -220,6 +221,21 @@ public class Utilities {
         UiObject header;
         header = new UiObject(new UiSelector().resourceId("com.android.systemui:id/header"));
         header.swipeDown(5);
+    }
+
+    public void LongClick(String findObjectBy, String name, int steps) throws Exception{
+
+        if(findObjectBy == "text"){
+            UiObject appAdd = new UiObject(new UiSelector().text(name));
+            Rect appButton_rect = appAdd.getBounds();
+            device.swipe(appButton_rect.centerX(), appButton_rect.centerY(), appButton_rect.centerX(), appButton_rect.centerY(), steps);
+        }
+
+        if(findObjectBy == "description"){
+            UiObject appAdd = new UiObject(new UiSelector().description(name));
+            Rect appButton_rect = appAdd.getBounds();
+            device.swipe(appButton_rect.centerX(), appButton_rect.centerY(), appButton_rect.centerX(), appButton_rect.centerY(), steps);
+        }
     }
 
 }

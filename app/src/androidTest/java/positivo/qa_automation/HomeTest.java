@@ -65,9 +65,7 @@ public class HomeTest {
         UiScrollable settingsItem = new UiScrollable(new UiSelector().className("android.support.v7.widget.RecyclerView"));
         settingsItem.getChildByText(new UiSelector().className("android.widget.TextView"), "Agenda");
 
-        UiObject appAdd = new UiObject(new UiSelector().text("Agenda"));
-        Rect appButton_rect = appAdd.getBounds();
-        device.swipe(appButton_rect.centerX(), appButton_rect.centerY(), appButton_rect.centerX(), appButton_rect.centerY(), 100);
+        util.LongClick("text", "Agenda", 100);
 
 
         device.pressHome();
@@ -232,11 +230,7 @@ public class HomeTest {
         UiScrollable imageSize = new UiScrollable(new UiSelector().className("android.support.v7.widget.RecyclerView"));
         imageSize.getChildByText(new UiSelector().className("android.widget.TextView"), "Configurações");
 
-        //device.findObject(By.clazz("android.widget.TextView").text("Atalho para as configurações")).longClick();
-
-        UiObject widgetAdd = new UiObject(new UiSelector().text("Atalho para as configurações"));
-        Rect widgetButton_rect = widgetAdd.getBounds();
-        device.swipe(widgetButton_rect.centerX(), widgetButton_rect.centerY(), widgetButton_rect.centerX(), widgetButton_rect.centerY(), 100);
+        util.LongClick("text", "Atalho para as configurações", 100);
 
         Thread.sleep(500);
         device.findObject(By.text("Bateria")).click();
