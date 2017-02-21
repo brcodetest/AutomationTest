@@ -4,6 +4,7 @@ package positivo.qa_automation;
  * Created by Emanuel on 09/12/2016.
  */
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,10 +38,10 @@ public class ContactsTest {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         util.UnlockDevice();}
 
-    @After
-    public void CleanUp(){
-        device.pressHome();
+    @AfterClass
+    public static void TearDown() throws Exception{
 
+        Thread.sleep(1000);
     }
 
     @Test

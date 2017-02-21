@@ -9,6 +9,8 @@ import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
 import junit.framework.Assert;
+
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -21,7 +23,7 @@ import org.junit.runners.MethodSorters;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class AlarmTest {
+public class AlarmTest{
 
     private UiDevice device;
     Utilities util = new Utilities();
@@ -33,6 +35,12 @@ public class AlarmTest {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         context = InstrumentationRegistry.getTargetContext();
         util.UnlockDevice();
+    }
+
+    @AfterClass
+    public static void TearDown() throws Exception{
+
+        Thread.sleep(1000);
     }
 
     @Test
