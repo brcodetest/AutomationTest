@@ -41,6 +41,10 @@ public class Utilities {
     private UiDevice device;
     public long timeout = 2000;
 
+    //wifi data
+    public String wifiAp1 = "PosinfoCode";
+    public String wifiPass1 ="pGUUMcwd";
+
     public void UnlockDevice(){
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         try{
