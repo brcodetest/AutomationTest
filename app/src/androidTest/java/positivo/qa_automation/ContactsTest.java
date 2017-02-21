@@ -38,8 +38,8 @@ public class ContactsTest {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         util.UnlockDevice();}
 
-    @AfterClass
-    public static void TearDown() throws Exception{
+    @After
+    public void TearDown() throws Exception{
 
         Thread.sleep(1000);
     }

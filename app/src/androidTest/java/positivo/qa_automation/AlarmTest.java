@@ -10,6 +10,7 @@ import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -37,8 +38,8 @@ public class AlarmTest{
         util.UnlockDevice();
     }
 
-    @AfterClass
-    public static void TearDown() throws Exception{
+    @After
+    public void TearDown() throws Exception{
 
         Thread.sleep(1000);
     }

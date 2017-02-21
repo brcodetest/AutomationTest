@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.provider.Settings;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -44,8 +45,8 @@ public class CameraTest {
         context = InstrumentationRegistry.getTargetContext();
         util.UnlockDevice();}
 
-    @AfterClass
-    public static void TearDown() throws Exception{
+    @After
+    public void TearDown() throws Exception{
 
         Thread.sleep(1000);
     }

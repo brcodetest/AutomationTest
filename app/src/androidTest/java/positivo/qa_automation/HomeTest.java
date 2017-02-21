@@ -17,6 +17,7 @@ import android.util.Log;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -49,8 +50,8 @@ public class HomeTest {
         context = InstrumentationRegistry.getTargetContext();
         util.UnlockDevice();}
 
-    @AfterClass
-    public static void TearDown() throws Exception{
+    @After
+    public void TearDown() throws Exception{
 
         Thread.sleep(1000);
     }

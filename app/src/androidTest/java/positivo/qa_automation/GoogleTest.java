@@ -3,6 +3,7 @@ package positivo.qa_automation;
 import android.content.Context;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
@@ -50,8 +51,8 @@ public class GoogleTest {
         context = InstrumentationRegistry.getTargetContext();
         util.UnlockDevice();}
 
-    @AfterClass
-    public static void TearDown() throws Exception{
+    @After
+    public void TearDown() throws Exception{
 
         Thread.sleep(1000);
     }
