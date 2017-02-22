@@ -93,7 +93,6 @@ public class HomeTest {
             if(appAssert == true)
             {
                 app.swipeUp(100);
-
             }
             appAssert = device.findObject(By.desc("Agenda")).isEnabled();
 
