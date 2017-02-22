@@ -46,9 +46,8 @@ public class AlarmTest{
 
     @Test
     public void CreateAlarm() throws  Exception{
-        util.OpenAppsFromMenu("Relógio");
 
-        util.AllowPermissionsIfNeeded();
+        util.OpenAppsFromMenu("Relógio");
 
         device.wait(Until.hasObject(By.desc("Alarme")), timeout);
         device.findObject(By.desc("Alarme")).click();
@@ -74,31 +73,28 @@ public class AlarmTest{
     @Test
     public void DeleteAlarm() throws Exception{
 
-        Thread.sleep(800);
+        util.OpenAppsFromMenu("Relógio");
 
-        device.findObject(By.descStartsWith("Expandir alarme")).click();
+        device.findObject(By.desc("Expandir alarme")).click();
 
-        Thread.sleep(800);
-
+        device.wait(Until.hasObject(By.desc("Excluir alarme")), timeout);
         device.findObject(By.desc("Excluir alarme")).click();
 
-        Thread.sleep(800);
+        device.wait(Until.hasObject(By.desc("Expandir alarme")), timeout);
+        device.findObject(By.desc("Expandir alarme")).click();
 
-        device.findObject(By.descStartsWith("Expandir alarme")).click();
-
-        Thread.sleep(800);
-
+        device.wait(Until.hasObject(By.desc("Excluir alarme")), timeout);
         device.findObject(By.desc("Excluir alarme")).click();
 
-        Thread.sleep(800);
+        device.wait(Until.hasObject(By.desc("Expandir alarme")), timeout);
+        device.findObject(By.desc("Expandir alarme")).click();
 
-        device.findObject(By.descStartsWith("Expandir alarme")).click();
-
-        Thread.sleep(800);
-
+        device.wait(Until.hasObject(By.desc("Excluir alarme")), timeout);
         device.findObject(By.desc("Excluir alarme")).click();
 
-        String alarme = device.findObject(By.descStartsWith("Nenhum alarme")).getText();
+
+        device.wait(Until.hasObject(By.desc("Nenhum alarme")), timeout);
+        String alarme = device.findObject(By.desc("Nenhum alarme")).getText();
 
         Assert.assertEquals("Alarme não excluído!", alarme, "Nenhum alarme");
 
