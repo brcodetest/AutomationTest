@@ -221,7 +221,7 @@ public class Utilities {
 
         UiObject screen;
         screen = new UiObject(new UiSelector().resourceId("com.android.launcher3:id/workspace"));
-        screen.swipeDown(5);
+        screen.swipeDown(8);
 
         UiObject header;
         header = new UiObject(new UiSelector().resourceId("com.android.systemui:id/header"));
