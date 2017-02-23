@@ -113,7 +113,7 @@ public class Utilities {
 
             device.findObject(By.text(appName)).click();
 
-            AllowPermissionsIfNeeded();
+            AllowPermissionsIfNeeded(1);
 
         }
         catch (Exception e){
@@ -121,21 +121,23 @@ public class Utilities {
         }
     }
 
-    public void AllowPermissionsIfNeeded(){
+    public void AllowPermissionsIfNeeded(int repeticoes){
 
-        device.wait(Until.hasObject(By.text("Permitir")), timeout);
-        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        if (Build.VERSION.SDK_INT >= 23) {
-            UiObject allowPermissions = device.findObject(new UiSelector().text("Permitir"));
-            if (allowPermissions.exists()) {
-                try {
-                    allowPermissions.click();
-                }
-                catch (UiObjectNotFoundException e) {
-                    System.out.print(e.toString() + " There is no permissions dialog to interact with ");
+
+        for(int i = 0; i < repeticoes; i++) {
+            device.wait(Until.hasObject(By.text("Permitir")), timeout);
+            if (Build.VERSION.SDK_INT >= 23) {
+                UiObject allowPermissions = device.findObject(new UiSelector().text("Permitir"));
+                if (allowPermissions.exists()) {
+                    try {
+                        allowPermissions.click();
+                    } catch (UiObjectNotFoundException e) {
+                        System.out.print(e.toString() + " Não há permissões para serem concedidas!");
+                    }
                 }
             }
         }
+
     }
 
     public boolean CheckInternetConnection(Context con){
@@ -250,8 +252,7 @@ public class Utilities {
         }
     }
 
-    public void ClearAppData(String packageName) throws Exception
-    {
+    public void ClearAppData(String packageName) throws Exception {
         try {
             device.executeShellCommand("pm clear " + packageName);
         }
