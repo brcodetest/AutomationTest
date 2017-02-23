@@ -250,4 +250,17 @@ public class Utilities {
         }
     }
 
+    public void ClearAppData(String packageName) throws Exception
+    {
+        try {
+            device.executeShellCommand("pm clear " + packageName);
+        }
+        catch (Exception e)
+        {
+            System.out.print("Falha ao limpar dados do pacote " + packageName);
+
+        }
+
+    }
+
 }
