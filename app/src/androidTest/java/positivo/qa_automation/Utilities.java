@@ -210,10 +210,9 @@ public class Utilities {
 
     public void SwipeNotificationBar() throws Exception{
 
-        UiObject screen;
-        screen = new UiObject(new UiSelector().resourceId("com.android.launcher3:id/workspace"));
-        screen.swipeDown(5);
-
+            UiObject screen;
+            screen = new UiObject(new UiSelector().resourceId("com.android.launcher3:id/workspace"));
+            screen.swipeDown(5);
     }
 
     public void SwipeQuickSettingsBar() throws Exception{
@@ -228,7 +227,7 @@ public class Utilities {
     }
 
     /**
-     * @param findObjectBy text ou description
+     * @param findObjectBy text, description ou resourceId
      * */
     public void LongClick(String findObjectBy, String name, int steps) throws Exception{
 
@@ -240,6 +239,12 @@ public class Utilities {
 
         if(findObjectBy == "description"){
             UiObject appAdd = new UiObject(new UiSelector().description(name));
+            Rect appButton_rect = appAdd.getBounds();
+            device.swipe(appButton_rect.centerX(), appButton_rect.centerY(), appButton_rect.centerX(), appButton_rect.centerY(), steps);
+        }
+
+        if(findObjectBy == "resourceId"){
+            UiObject appAdd = new UiObject(new UiSelector().resourceId(name));
             Rect appButton_rect = appAdd.getBounds();
             device.swipe(appButton_rect.centerX(), appButton_rect.centerY(), appButton_rect.centerX(), appButton_rect.centerY(), steps);
         }

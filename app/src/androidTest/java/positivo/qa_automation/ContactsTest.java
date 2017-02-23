@@ -7,14 +7,21 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+import org.junit.runners.Suite;
 
+import android.graphics.Rect;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObject2;
+import android.support.test.uiautomator.UiScrollable;
+import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
 
 
@@ -25,6 +32,7 @@ import java.util.Random;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ContactsTest {
     private UiDevice device;
     Utilities util = new Utilities();
@@ -40,12 +48,11 @@ public class ContactsTest {
 
     @After
     public void TearDown() throws Exception{
-
         Thread.sleep(1000);
     }
 
     @Test
-    public void CreateNewContact(){
+    public void AddNewContact() throws Exception{
         util.OpenAppsFromMenu("Contatos");
         device.wait(Until.hasObject(By.res("com.android.contacts", "floating_action_button")), timeout);
         UiObject2 addNewContact = device.findObject(By.res("com.android.contacts", "floating_action_button"));
@@ -55,13 +62,12 @@ public class ContactsTest {
             device.wait(Until.hasObject(By.clazz("android.widget.TextView").text("Google")), timeout);
             if (device.findObject(By.clazz("android.widget.TextView").text("Google")).isEnabled()) {
                 device.findObject(By.clazz("android.widget.TextView").text("Telefone")).click();
-            }}
+            }
+        }
         catch (Exception e)
         {
-            Assume.assumeTrue(1 ==1);
+            Assume.assumeTrue(1 == 1);
         }
-
-
         finally {
                 //Cadastra novo contato
                 device.wait(Until.hasObject(By.text("Nome")), timeout);
@@ -69,6 +75,8 @@ public class ContactsTest {
                 device.findObject(By.clazz("android.widget.EditText").text("Telefone")).setText("41999887766");
                 device.findObject(By.clazz("android.widget.EditText").text("E-mail")).setText("automation@positivo.com.br");
                 device.findObject(By.res("com.android.contacts", "menu_save")).click();
+
+                Thread.sleep(2000);
                 device.pressBack();
 
                 //Pesquisa se o contato foi cadastrado
@@ -85,23 +93,14 @@ public class ContactsTest {
                 Assert.assertEquals("Nome do contato diferente do esperado. Expected: " + result + ", found: " + contactName, result, contactName);
 
             }
-
-
-
     }
 
     @Test
-    public void ExportContact() throws InterruptedException {
-        try{
-            util.AdbCommand("pm clear com.android.contacts");
-        }
-        catch (Exception e){
-            System.out.print(e.toString());
-        }
+    public void ExportContact() throws Exception {
 
         util.OpenAppsFromMenu("Contatos");
         device.wait(Until.hasObject(By.res("com.android.contacts", "floating_action_button")), timeout);
-        device.findObject(By.descContains("Mais")).click();
+        device.pressMenu();
 
         device.wait(Until.hasObject(By.clazz("android.widget.TextView").text("Importar/exportar")), timeout);
         device.findObject(By.clazz("android.widget.TextView").text("Importar/exportar")).click();
@@ -124,9 +123,8 @@ public class ContactsTest {
         device.wait(Until.hasObject(By.clazz("android.widget.TextView").textContains("Automation")), timeout);
         device.findObject(By.clazz("android.widget.TextView").textContains("Automation")).click();
 
-        Thread.sleep(1000);
+        Thread.sleep(500);
         device.findObject(By.clazz("android.widget.Button").text("OK")).click();
-
 
         device.waitForWindowUpdate("com.android.contacts", timeout);
         util.AllowPermissionsIfNeeded();
@@ -134,18 +132,81 @@ public class ContactsTest {
         device.wait(Until.hasObject(By.clazz("android.widget.Button").text("OK")), timeout);
         device.findObject(By.clazz("android.widget.Button").text("OK")).click();
 
-        util.OpenAppsFromMenu("Gerenciador de arquivos");
-        device.wait(Until.hasObject(By.clazz("android.widget.TextView").textContains("Armazenamento")), timeout);
-        device.findObject(By.clazz("android.widget.TextView").textContains("Armazenamento")).click();
 
-        device.swipe(600, 1000, 600, 300, 2);
-        String fileName = device.findObject(By.clazz("android.widget.TextView").textEndsWith("vcf")).getText();
+        Thread.sleep(500);
+        device.pressHome();
+        util.SwipeNotificationBar();
 
-        Assert.assertEquals("Arquivo não encontrado, contato não exportado", "vcf", fileName.endsWith("vcf"));
+        Thread.sleep(1000);
 
+        try {
+            Assert.assertTrue("Não exportou o contato!", device.findObject(By.textStartsWith("Exportação de ")).isEnabled());
+        }
+        catch (Exception e){
+            if (e.toString().endsWith("'boolean android.support.test.uiautomator.UiObject2.isEnabled()' on a null object reference")) {
+                Assert.assertTrue("Não exportou o contato!", device.findObject(By.textStartsWith("Exportação de ")).isEnabled());
+            }
+
+        }
+    }
+
+    @Test
+    public void RemoveContact() throws Exception {
+
+        util.OpenAppsFromMenu("Contatos");
+
+        device.wait(Until.hasObject(By.res("com.android.contacts", "menu_search")), timeout);
+        device.findObject(By.res("com.android.contacts", "menu_search")).click();
+
+        device.wait(Until.hasObject(By.res("com.android.contacts", "search_view")), timeout);
+        device.findObject(By.res("com.android.contacts", "search_view")).setText("Automation Contact");
+
+         util.LongClick("resourceId", "com.android.contacts:id/cliv_name_textview", 100);
+
+        device.pressMenu();
+
+        device.wait(Until.hasObject(By.text("Excluir")), timeout);
+        device.findObject(By.text("Excluir")).click();
+
+        device.wait(Until.hasObject(By.text("OK")), timeout);
+        device.findObject(By.text("OK")).click();
+
+        Thread.sleep(1000);
+
+        device.openNotification();
+
+        Thread.sleep(1000);
+
+        Assert.assertTrue("Não excluiu o contato!", device.findObject(By.text("Contatos excluídos com sucesso")).isEnabled());
 
     }
 
     @Test
-    public  void ImportContact(){}
+    public void ImportContact() throws Exception {
+        util.OpenAppsFromMenu("Contatos");
+        device.wait(Until.hasObject(By.res("com.android.contacts", "floating_action_button")), timeout);
+        device.pressMenu();
+
+        device.wait(Until.hasObject(By.clazz("android.widget.TextView").text("Importar/exportar")), timeout);
+        device.findObject(By.clazz("android.widget.TextView").text("Importar/exportar")).click();
+
+        Thread.sleep(1000);
+        device.findObject(By.text("Armazenamento interno")).click();
+
+        device.findObject(By.text("Próximo")).click();
+
+        Thread.sleep(1000);
+        device.findObject(By.text("Telefone")).click();
+
+        device.findObject(By.text("Próximo")).click();
+
+        Thread.sleep(3000);
+
+        device.pressHome();
+
+        util.SwipeNotificationBar();
+
+        Assert.assertTrue("Não importou o contato!", device.findObject(By.textStartsWith("Importação do vCard ")).isEnabled());
+
+    }
 }
