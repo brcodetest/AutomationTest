@@ -114,6 +114,51 @@ public class MultimediaTest {
     }
 
     @Test
+    public void VideoStreaming() throws Exception {
+
+        util.ClearAppData("com.android.chrome");
+
+        try {
+
+            if (util.CheckInternetConnection(this.context) == true) {
+                util.OpenAppsFromMenu("Chrome");
+                device.wait(Until.hasObject(By.text("Aceitar e continuar")), timeout);
+                device.findObject(By.text("Aceitar e continuar")).click();
+
+                device.wait(Until.hasObject(By.text("Não, obrigado")), timeout);
+                device.findObject(By.text("Não, obrigado")).click();
+
+
+                device.wait(Until.hasObject(By.text("Pesquisar ou digitar URL")), timeout);
+                device.findObject(By.text("Pesquisar ou digitar URL")).click();
+                Thread.sleep(500);
+                device.findObject(By.text("Pesquisar ou digitar URL")).setText("http://gsmworld.mobi/blm/downloads/video_stream_720p_a.mp4");
+                device.pressEnter();
+
+                Thread.sleep(1000);
+                device.wait(Until.hasObject(By.desc("reproduzir iniciar reprodução")), 10000);
+                device.findObject(By.desc("reproduzir iniciar reprodução")).click();
+
+                Thread.sleep(5000);
+
+                device.openNotification();
+
+                device.wait(Until.hasObject(By.desc("Pausar")), timeout);
+                device.findObject(By.desc("Pausar")).click();
+
+            }
+            else {
+                Assert.fail("Sem conexão com a internet!");
+            }
+        }
+
+        catch (Exception e)
+        {
+            Assert.fail(e.toString());
+        }
+    }
+
+    @Test
     public void AudioSuspendAndResume()  throws Exception{
 
         util.OpenAppsFromMenu("Gerenciador de arquivos");
