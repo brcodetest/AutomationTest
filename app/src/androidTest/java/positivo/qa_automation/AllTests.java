@@ -17,8 +17,9 @@ import org.junit.runners.Suite;
         CalculatorTest.class,
         AlarmTest.class,
         CameraTest.class,
-        GoogleTest.class,
         ContactsTest.class,
+        WifiTest.class,
+        GoogleTest.class,
         HomeTest.class,
         PropertiesTest.class,
         SettingsTest.class
