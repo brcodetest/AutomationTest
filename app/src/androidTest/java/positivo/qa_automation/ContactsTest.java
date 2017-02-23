@@ -127,7 +127,7 @@ public class ContactsTest {
         device.findObject(By.clazz("android.widget.Button").text("OK")).click();
 
         device.waitForWindowUpdate("com.android.contacts", timeout);
-        util.AllowPermissionsIfNeeded();
+        util.AllowPermissionsIfNeeded(1);
 
         device.wait(Until.hasObject(By.clazz("android.widget.Button").text("OK")), timeout);
         device.findObject(By.clazz("android.widget.Button").text("OK")).click();
