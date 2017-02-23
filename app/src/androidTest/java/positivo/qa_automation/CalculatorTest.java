@@ -4,6 +4,7 @@ package positivo.qa_automation;
  * Created by Emanuel on 24/11/2016.
  */
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,8 +30,8 @@ public class CalculatorTest {
         util.UnlockDevice();
 }
 
-    @AfterClass
-    public static void TearDown() throws Exception{
+    @After
+    public void TearDown() throws Exception{
 
         Thread.sleep(1000);
     }

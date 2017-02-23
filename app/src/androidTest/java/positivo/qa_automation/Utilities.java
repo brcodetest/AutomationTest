@@ -16,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.graphics.Rect;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -112,6 +113,8 @@ public class Utilities {
 
             device.findObject(By.text(appName)).click();
 
+            AllowPermissionsIfNeeded();
+
         }
         catch (Exception e){
             System.out.print(e.toString());
@@ -160,10 +163,14 @@ public class Utilities {
 
     }
 
-    public void SwipeUntilFindElementAndClick(String element){
+    /**
+     * @param type ScrollView ou ListView
+     * @param element Nome do elemento
+     * */
+    public void SwipeUntilFindElementAndClick(String type, String element){
         try{
             Thread.sleep(500);
-            UiScrollable settingsItem = new UiScrollable(new UiSelector().className("android.widget.ScrollView"));
+            UiScrollable settingsItem = new UiScrollable(new UiSelector().className("android.widget." + type));
             settingsItem.getChildByText(new UiSelector().className("android.widget.LinearLayout"), element);
             device.findObject(By.clazz("android.widget.TextView").text(element)).click();
 
@@ -203,10 +210,9 @@ public class Utilities {
 
     public void SwipeNotificationBar() throws Exception{
 
-        UiObject screen;
-        screen = new UiObject(new UiSelector().resourceId("com.android.launcher3:id/workspace"));
-        screen.swipeDown(5);
-
+            UiObject screen;
+            screen = new UiObject(new UiSelector().resourceId("com.android.launcher3:id/workspace"));
+            screen.swipeDown(5);
     }
 
     public void SwipeQuickSettingsBar() throws Exception{
@@ -218,6 +224,43 @@ public class Utilities {
         UiObject header;
         header = new UiObject(new UiSelector().resourceId("com.android.systemui:id/header"));
         header.swipeDown(5);
+    }
+
+    /**
+     * @param findObjectBy text, description ou resourceId
+     * */
+    public void LongClick(String findObjectBy, String name, int steps) throws Exception{
+
+        if(findObjectBy == "text"){
+            UiObject appAdd = new UiObject(new UiSelector().text(name));
+            Rect appButton_rect = appAdd.getBounds();
+            device.swipe(appButton_rect.centerX(), appButton_rect.centerY(), appButton_rect.centerX(), appButton_rect.centerY(), steps);
+        }
+
+        if(findObjectBy == "description"){
+            UiObject appAdd = new UiObject(new UiSelector().description(name));
+            Rect appButton_rect = appAdd.getBounds();
+            device.swipe(appButton_rect.centerX(), appButton_rect.centerY(), appButton_rect.centerX(), appButton_rect.centerY(), steps);
+        }
+
+        if(findObjectBy == "resourceId"){
+            UiObject appAdd = new UiObject(new UiSelector().resourceId(name));
+            Rect appButton_rect = appAdd.getBounds();
+            device.swipe(appButton_rect.centerX(), appButton_rect.centerY(), appButton_rect.centerX(), appButton_rect.centerY(), steps);
+        }
+    }
+
+    public void ClearAppData(String packageName) throws Exception
+    {
+        try {
+            device.executeShellCommand("pm clear " + packageName);
+        }
+        catch (Exception e)
+        {
+            System.out.print("Falha ao limpar dados do pacote " + packageName);
+
+        }
+
     }
 
 }

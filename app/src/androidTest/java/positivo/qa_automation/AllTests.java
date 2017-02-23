@@ -20,7 +20,8 @@ import org.junit.runners.Suite;
         GoogleTest.class,
         ContactsTest.class,
         HomeTest.class,
-        PropertiesTest.class
+        PropertiesTest.class,
+        SettingsTest.class
 
 })
 

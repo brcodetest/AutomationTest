@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.provider.Settings;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -44,8 +45,8 @@ public class CameraTest {
         context = InstrumentationRegistry.getTargetContext();
         util.UnlockDevice();}
 
-    @AfterClass
-    public static void TearDown() throws Exception{
+    @After
+    public void TearDown() throws Exception{
 
         Thread.sleep(1000);
     }
@@ -53,7 +54,6 @@ public class CameraTest {
     @Test
     public void FrontCamera_ContinuousShot(){
         util.OpenAppsFromMenu("Câmera");
-        util.AllowPermissionsIfNeeded();
 
         try {
 
@@ -62,9 +62,7 @@ public class CameraTest {
 
             Thread.sleep(500);
 
-            UiObject CameraButton = new UiObject(new UiSelector().description("Tirar foto"));
-            Rect CameraButton_rect = CameraButton.getBounds();
-            device.swipe(CameraButton_rect.centerX(), CameraButton_rect.centerY(), CameraButton_rect.centerX(), CameraButton_rect.centerY(), 250);
+            util.LongClick("description", "Tirar foto", 250);
 
             int i = 0;
             if (!device.findObject(By.res("com.mediatek.camera", "shutter_button_photo")).isEnabled()) {
@@ -92,7 +90,6 @@ public class CameraTest {
     @Test
     public void FrontCamera_RecordVideoWithAllResolutions() throws Exception{
         util.OpenAppsFromMenu("Câmera");
-        util.AllowPermissionsIfNeeded();
 
         try {
 
@@ -133,7 +130,6 @@ public class CameraTest {
     @Test
     public void FrontCamera_TakePicturesWithAllResolutions() throws Exception{
         util.OpenAppsFromMenu("Câmera");
-        util.AllowPermissionsIfNeeded();
 
         Thread.sleep(300);
         SelectResolutions("QVGA", "Configurações para foto");
@@ -198,16 +194,15 @@ public class CameraTest {
     @Test
     public void RearCamera_ContinuousShot(){
         util.OpenAppsFromMenu("Câmera");
-        util.AllowPermissionsIfNeeded();
 
         try {
 
             device.wait(Until.hasObject(By.desc("Escolher câmera")), timeout);
             device.findObject(By.desc("Escolher câmera")).click();
 
-            UiObject CameraButton = new UiObject(new UiSelector().description("Tirar foto"));
-            Rect CameraButton_rect = CameraButton.getBounds();
-            device.swipe(CameraButton_rect.centerX(), CameraButton_rect.centerY(), CameraButton_rect.centerX(), CameraButton_rect.centerY(), 250);
+            Thread.sleep(500);
+
+            util.LongClick("description", "Tirar foto", 250);
 
             int i = 0;
             if (!device.findObject(By.res("com.mediatek.camera", "shutter_button_photo")).isEnabled()) {
@@ -236,7 +231,6 @@ public class CameraTest {
     @Test
     public void RearCamera_RecordVideoWithAllResolutions() throws Exception{
         util.OpenAppsFromMenu("Câmera");
-        util.AllowPermissionsIfNeeded();
 
         try {
 
@@ -286,7 +280,6 @@ public class CameraTest {
     @Test
     public void RearCamera_TakePicturesWithAllResolutions() throws Exception{
         util.OpenAppsFromMenu("Câmera");
-        util.AllowPermissionsIfNeeded();
 
         Thread.sleep(300);
         SelectResolutions("QVGA", "Configurações para foto");
@@ -351,7 +344,6 @@ public class CameraTest {
     @Test
     public void SwitchCamerasSeveralTimes() throws Exception {
         util.OpenAppsFromMenu("Câmera");
-        util.AllowPermissionsIfNeeded();
 
         try {
 

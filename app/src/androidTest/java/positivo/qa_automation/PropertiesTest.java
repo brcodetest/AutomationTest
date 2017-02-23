@@ -3,6 +3,7 @@ package positivo.qa_automation;
 import android.content.Context;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,8 +40,8 @@ public class PropertiesTest {
         util.UnlockDevice();
     }
 
-    @AfterClass
-    public static void TearDown() throws Exception{
+    @After
+    public void TearDown() throws Exception{
 
         Thread.sleep(1000);
     }
@@ -87,7 +88,7 @@ public class PropertiesTest {
     @Test
     public  void CheckSecurityPathInAbout(){
         util.OpenAppsFromMenu("Configurar");
-        util.SwipeUntilFindElementAndClick("Sobre o telefone");
+        util.SwipeUntilFindElementAndClick("ScrollView", "Sobre o telefone");
         device.wait(Until.hasObject(By.clazz("android.widget.TextView").textContains("Nível do patch")), timeout);
         UiObject2 sp = device.findObject(By.clazz("android.widget.TextView").textContains("Nível do patch"));
         Assert.assertTrue("Security path não encontrado no menu Sobre", sp.isEnabled());
@@ -104,7 +105,7 @@ public class PropertiesTest {
 
         util.OpenAppsFromMenu("Configurar");
         Thread.sleep(500);
-        util.SwipeUntilFindElementAndClick("Sobre o telefone");
+        util.SwipeUntilFindElementAndClick("ScrollView", "Sobre o telefone");
         device.wait(Until.hasObject(By.clazz("android.widget.TextView").textContains("Número do modelo")), timeout);
 
         try {
