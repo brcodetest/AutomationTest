@@ -21,6 +21,7 @@ import org.junit.runners.Suite;
         WifiTest.class,
         GoogleTest.class,
         HomeTest.class,
+        MultimediaTest.class,
         PropertiesTest.class,
         SettingsTest.class
 
