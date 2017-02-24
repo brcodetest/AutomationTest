@@ -17,15 +17,13 @@ import org.junit.runners.Suite;
         CalculatorTest.class,
         AlarmTest.class,
         CameraTest.class,
-        ContactsTest.class,
         WifiTest.class,
-        GoogleTest.class,
+        ContactsTest.class,
         HomeTest.class,
         MultimediaTest.class,
         PropertiesTest.class,
-        SettingsTest.class,
-        AppsTest.class
-
+        AppsTest.class,
+        SettingsTest.class
 })
 
 public class AllTests  extends TestSuite{
