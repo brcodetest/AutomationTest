@@ -260,6 +260,37 @@ public class MultimediaTest {
 
     }
 
+    @Test
+    public void DeletePictures() throws Exception{
+        util.ClearAppData("com.mediatek.filemanager");
+
+        util.OpenAppsFromMenu("Câmera");
+
+        Thread.sleep(2000);
+        device.findObject(By.res("com.mediatek.camera", "shutter_button_photo")).click();
+        Thread.sleep(1000);
+
+        util.OpenAppsFromMenu("Gerenciador de arquivos");
+        device.findObject(By.text("Armazenamento interno")).click();
+        util.SwipeUntilFindElementAndClick("ListView", "DCIM");
+        device.findObject(By.text("Camera")).click();
+
+        device.pressMenu();
+
+        device.findObject(By.text("Ordenar por")).click();
+        device.findObject(By.textStartsWith("Tempo")).click();
+
+        util.LongClick("resourceId", "com.mediatek.filemanager:id/edit_adapter_img", 100);
+
+
+        device.findObject(By.desc("Excluir")).click();
+
+        util.AllowPermissionsIfNeeded(1);
+
+        device.findObject(By.text("OK")).click();
+
+    }
+
 
 
 }
