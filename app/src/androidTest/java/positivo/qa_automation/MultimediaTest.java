@@ -77,6 +77,11 @@ public class MultimediaTest {
 
                 Thread.sleep(5000);
 
+                if(!device.hasObject(By.desc("fazer o download da mídia controle de mídia")))
+                {
+                    Assert.fail("Versão muito antiga do Chrome!!! Atualize também o Google Play Services. Outros testes de multimedia talvez falharam. ");
+                }
+
                 device.findObject(By.desc("fazer o download da mídia controle de mídia")).click();
 
                 device.wait(Until.hasObject(By.text("Atualizar permissões")), timeout);
