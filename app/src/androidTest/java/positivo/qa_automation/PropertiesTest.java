@@ -127,5 +127,16 @@ public class PropertiesTest {
         Assert.assertEquals("ro.product.model é diferente do menu 'Sobre o telefone'", modelNumber, modelAbout);
     }
 
+    @Test
+    public void CheckMtpLabel(){
+
+        String modelNumber = util.AdbCommand("getprop ro.product.model");
+
+        String mtpLabel = util.AdbCommand("getprop ro.mtp.label");
+
+        Assert.assertEquals("MTP label diferente do numero do modelo!", modelNumber, mtpLabel);
+
+    }
+
 
 }
