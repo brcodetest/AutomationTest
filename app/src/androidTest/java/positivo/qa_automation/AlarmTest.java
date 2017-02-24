@@ -47,6 +47,8 @@ public class AlarmTest{
     @Test
     public void CreateAlarm() throws  Exception{
 
+        util.ClearAppData("com.android.deskclock");
+
         util.OpenAppsFromMenu("Relógio");
 
         device.wait(Until.hasObject(By.desc("Alarme")), timeout);
