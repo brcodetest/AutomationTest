@@ -55,10 +55,9 @@ public class WifiTest {
     @Test
     public void ConnectWifiandNavigate () throws Exception{
 
+        util.ClearAppData("com.android.chrome");
         util.OpenAppsFromMenu("Configurar");
-        device.wait(Until.hasObject(By.text("Wi-Fi")), 4000);
-        UiObject2 menuWifi = device.findObject(By.text("Wi-Fi"));
-        menuWifi.click();
+        util.SwipeUntilFindElementAndClick("ScrollView", "Wi-Fi");
 
         UiScrollable settingsItem = new UiScrollable(new UiSelector().className("android.widget.ListView"));
         settingsItem.getChildByText(new UiSelector().className("android.widget.LinearLayout"), util.wifiAp1);
@@ -98,7 +97,7 @@ public class WifiTest {
 
         device.pressEnter();
 
-        Assert.assertTrue(device.wait(Until.hasObject(By.desc("www.minhaconexao.com.br")), 3000));
+        Assert.assertTrue(device.wait(Until.hasObject(By.desc("www.minhaconexao.com.br")), 10000));
     }
 
 
