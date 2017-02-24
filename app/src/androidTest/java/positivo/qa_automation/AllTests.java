@@ -23,7 +23,8 @@ import org.junit.runners.Suite;
         HomeTest.class,
         MultimediaTest.class,
         PropertiesTest.class,
-        SettingsTest.class
+        SettingsTest.class,
+        AppsTest.class
 
 })
 
