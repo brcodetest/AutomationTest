@@ -60,7 +60,7 @@ public class AppsTest {
 
         //Cria lista para receber os apps
         List<UiObject2> listApps = device.findObject(By.res("com.android.launcher3","apps_list_view")).getChildren();
-        List<String> listName = new ArrayList<String>();
+        List<String> listName = new ArrayList<>();
 
         //Joga todos os elementos encontrados na listName
         for (UiObject2 a: listApps ) {
@@ -93,7 +93,8 @@ public class AppsTest {
         List listAllApps = new ArrayList(new HashSet(listName));
 
 
-        List<String> listAppsFail =  new ArrayList<String>();
+        List<String> listAppsFail =  new ArrayList<>();
+        List<String> listAppsNotOpen =  new ArrayList<>();
 
 
         for(int z = 0; z < listAllApps.size(); z++)
@@ -101,6 +102,11 @@ public class AppsTest {
 
             util.OpenAppsFromMenu(listAllApps.get(z).toString());
             Thread.sleep(8000);
+
+            if(device.getCurrentPackageName().equals("com.android.launcher3"))
+            {
+                listAppsNotOpen.add(listAllApps.get(z).toString());
+            }
 
             if(device.hasObject(By.text("O aplicativo " + listAllApps.get(z).toString() + " parou.")))
             {
@@ -114,12 +120,20 @@ public class AppsTest {
                     device.pressBack();
                 }
             }
+
         }
 
-
-        if(listAppsFail.size() > 0) {
+        if(listAppsFail.size() > 0 && listAppsNotOpen.isEmpty()) {
             Assert.fail("Os seguintes apps falharam ao abrir: " + listAppsFail.toString());
         }
+        if(listAppsNotOpen.size() > 0 && listAppsFail.isEmpty()) {
+            Assert.fail("Os seguintes apps não abriram: " + listAppsNotOpen.toString());
+        }
+        if(listAppsFail.size() > 0 && listAppsNotOpen.size() > 0) {
+            Assert.fail("Os seguintes apps falharam ao abrir: " + listAppsFail.toString() + ". E os seguintes apps não abriram: " + listAppsNotOpen.toString());
+        }
+
+
 
 
     }
