@@ -52,7 +52,10 @@ public class CameraTest {
     }
 
     @Test
-    public void FrontCamera_ContinuousShot(){
+    public void FrontCamera_ContinuousShot()throws Exception{
+
+        util.ClearAppData("com.mediatek.camera");
+
         util.OpenAppsFromMenu("Câmera");
 
         try {
