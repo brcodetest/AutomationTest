@@ -123,8 +123,6 @@ public class MultimediaTest {
 
         util.ClearAppData("com.android.chrome");
 
-        try {
-
             if (util.CheckInternetConnection(this.context) == true) {
                 util.OpenAppsFromMenu("Chrome");
                 device.wait(Until.hasObject(By.text("Aceitar e continuar")), timeout);
@@ -132,7 +130,6 @@ public class MultimediaTest {
 
                 device.wait(Until.hasObject(By.text("Não, obrigado")), timeout);
                 device.findObject(By.text("Não, obrigado")).click();
-
 
                 device.wait(Until.hasObject(By.text("Pesquisar ou digitar URL")), timeout);
                 device.findObject(By.text("Pesquisar ou digitar URL")).click();
@@ -155,12 +152,7 @@ public class MultimediaTest {
             else {
                 Assert.fail("Sem conexão com a internet!");
             }
-        }
 
-        catch (Exception e)
-        {
-            Assert.fail(e.toString());
-        }
     }
 
     @Test
@@ -169,6 +161,11 @@ public class MultimediaTest {
         util.OpenAppsFromMenu("Gerenciador de arquivos");
         device.findObject(By.text("Armazenamento interno")).click();
         util.SwipeUntilFindElementAndClick("ListView", "Download");
+
+        if(!device.hasObject(By.text("music.mp3")))
+        {
+            Assert.fail("Não encontrou a música!");
+        }
         device.findObject(By.text("music.mp3")).click();
 
         Thread.sleep(1000);
@@ -205,7 +202,6 @@ public class MultimediaTest {
             Assert.fail("Não deletou a música!");
         }
 
-
     }
 
     @Test
@@ -237,11 +233,13 @@ public class MultimediaTest {
 
     @Test
     public void SoundRecorder_Remove() throws Exception{
-
+        util.ClearAppData("com.android.soundrecorder");
         util.OpenAppsFromMenu("Gravador de som");
 
         device.wait(Until.hasObject(By.res("com.android.soundrecorder", "fileListButton")), timeout);
         device.findObject(By.res("com.android.soundrecorder", "fileListButton")).click();
+
+        util.AllowPermissionsIfNeeded(1);
 
         Thread.sleep(500);
         if(!device.hasObject(By.textEndsWith(".3gpp")))
