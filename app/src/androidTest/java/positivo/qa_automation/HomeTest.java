@@ -225,7 +225,7 @@ public class HomeTest {
 
         device.pressMenu();
 
-        device.findObject(By.text("Widgets")).click();
+        device.findObject(By.text("WIDGETS")).click();
 
         UiScrollable imageSize = new UiScrollable(new UiSelector().className("android.support.v7.widget.RecyclerView"));
         imageSize.getChildByText(new UiSelector().className("android.widget.TextView"), "Configurações");
@@ -247,7 +247,7 @@ public class HomeTest {
     public void ChangeWallpaper() throws Exception{
         device.pressHome();
         device.pressMenu();
-        device.findObject(By.text("Planos de fundo")).click();
+        device.findObject(By.text("PLANOS DE FUNDO")).click();
 
         Thread.sleep(500);
 
@@ -255,11 +255,14 @@ public class HomeTest {
         wp.swipeLeft(100);
         wp.swipeLeft(100);
 
-        device.findObject(By.text("Holo Espiral")).click();
+        device.findObject(By.res("com.android.launcher3:id/wallpaper_image")).click();
 
         Thread.sleep(500);
-
         device.findObject(By.text("Definir plano de fundo")).click();
+
+        Thread.sleep(500);
+        device.findObject(By.text("Tela inicial")).click();
+
     }
 
     @Test
