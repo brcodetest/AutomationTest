@@ -20,6 +20,7 @@ import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObject2;
 import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
+import android.text.style.TtsSpan;
 
 
 import junit.framework.Assert;
@@ -51,8 +52,9 @@ public class SettingsTest {
     @Test
     public void ScreenTimeout15s() throws Exception{
         util.OpenAppsFromMenu("Configurar");
-        util.SwipeUntilFindElementAndClick("ScrollView", "Tela");
-        util.SwipeUntilFindElementAndClick("ListView", "Modo de espera");
+        util.SwipeUntilFindElementAndClick("RecyclerView", "Tela");
+        util.SwipeUntilFindElementAndClick("RecyclerView", "Modo de espera");
+        device.wait(Until.hasObject(By.text("15 segundos")), timeout);
         device.findObject(By.text("15 segundos")).click();
 
         device.pressHome();
@@ -66,8 +68,9 @@ public class SettingsTest {
     @Test
     public void ScreenTimeout30s() throws Exception{
         util.OpenAppsFromMenu("Configurar");
-        util.SwipeUntilFindElementAndClick("ScrollView", "Tela");
-        util.SwipeUntilFindElementAndClick("ListView", "Modo de espera");
+        util.SwipeUntilFindElementAndClick("RecyclerView", "Tela");
+        util.SwipeUntilFindElementAndClick("RecyclerView", "Modo de espera");
+        device.wait(Until.hasObject(By.text("30 segundos")), timeout);
         device.findObject(By.text("30 segundos")).click();
 
         device.pressHome();
@@ -79,62 +82,9 @@ public class SettingsTest {
     }
 
     @Test
-    public void CreateAudioProfile() throws Exception{
-        util.OpenAppsFromMenu("Configurar");
-        util.SwipeUntilFindElementAndClick("ScrollView", "Som e notificação");
-        Thread.sleep(500);
-        device.pressMenu();
-        device.findObject(By.text("Adicionar")).click();
-
-        Thread.sleep(1500);
-        device.findObject(By.res("com.android.settings", "edittext")).setText("Automation Profile");
-        device.findObject(By.text("OK")).click();
-
-        Thread.sleep(500);
-        device.findObject(By.desc("Configurações do dispositivo")).click();
-        Thread.sleep(500);
-
-        UiObject volumeAlarme = new UiObject(new UiSelector().resourceId("android:id/seekbar"));
-        volumeAlarme.swipeLeft(100);
-
-        device.findObject(By.text("Toque do telefone")).click();
-        Thread.sleep(1000);
-        device.findObject(By.text("Free Flight")).click();
-
-        device.findObject(By.text("OK")).click();
-        Thread.sleep(1000);
-
-        device.pressBack();
-
-        String profileCreated = device.findObject(By.res("com.android.settings:id/profiles_text")).getText();
-
-        Assert.assertEquals("Não criou o perfil de áudio!", "Automation Profile", profileCreated );
-
-    }
-
-    @Test
-    public void ResetAudioProfile() throws Exception{
-        util.OpenAppsFromMenu("Configurar");
-        util.SwipeUntilFindElementAndClick("ScrollView", "Som e notificação");
-
-        device.wait(Until.hasObject(By.res("com.android.settings:id/profiles_text")), timeout);
-        String profileCreated = device.findObject(By.res("com.android.settings:id/profiles_text")).getText();
-
-        device.pressMenu();
-        device.findObject(By.text("Redefinir")).click();
-        device.wait(Until.hasObject(By.text("OK")), timeout);
-        device.findObject(By.text("OK")).click();
-        device.wait(Until.hasObject(By.res("com.android.settings:id/profiles_text")), timeout);
-        String firstProfile = device.findObject(By.res("com.android.settings:id/profiles_text")).getText();
-
-        Assert.assertNotSame("Não redefeniu os perfis de áudio!", profileCreated, firstProfile);
-
-    }
-
-    @Test
     public void PhoneLockWithPin() throws Exception{
         util.OpenAppsFromMenu("Configurar");
-        util.SwipeUntilFindElementAndClick("ScrollView", "Segurança");
+        util.SwipeUntilFindElementAndClick("RecyclerView", "Segurança");
 
         device.wait(Until.hasObject(By.text("Bloqueio de tela")), timeout);
         device.findObject(By.text("Bloqueio de tela")).click();
@@ -142,13 +92,13 @@ public class SettingsTest {
         device.wait(Until.hasObject(By.text("PIN")), timeout);
         device.findObject(By.text("PIN")).click();
 
-        device.wait(Until.hasObject(By.text("Continuar")), timeout);
-        device.findObject(By.text("Continuar")).click();
+        device.wait(Until.hasObject(By.text("Não, obrigado.")), timeout);
+        device.findObject(By.text("Não, obrigado.")).click();
 
         device.wait(Until.hasObject(By.res("com.android.settings", "password_entry")), timeout);
         device.findObject(By.res("com.android.settings", "password_entry")).setText("1234");
 
-        device.findObject(By.text("Continuar")).click();
+        device.findObject(By.text("CONTINUAR")).click();
 
         device.wait(Until.hasObject(By.res("com.android.settings", "password_entry")), timeout);
         device.findObject(By.res("com.android.settings", "password_entry")).setText("1234");
@@ -156,8 +106,8 @@ public class SettingsTest {
         device.wait(Until.hasObject(By.text("OK")), timeout);
         device.findObject(By.text("OK")).click();
 
-        device.wait(Until.hasObject(By.text("Concluído")), timeout);
-        device.findObject(By.text("Concluído")).click();
+        device.wait(Until.hasObject(By.text("CONCLUÍDO")), timeout);
+        device.findObject(By.text("CONCLUÍDO")).click();
         Thread.sleep(500);
         device.sleep();
         Thread.sleep(2000);
@@ -188,7 +138,7 @@ public class SettingsTest {
     @Test
     public void PhoneLockWithPwd() throws Exception{
         util.OpenAppsFromMenu("Configurar");
-        util.SwipeUntilFindElementAndClick("ScrollView", "Segurança");
+        util.SwipeUntilFindElementAndClick("RecyclerView", "Segurança");
 
         device.wait(Until.hasObject(By.text("Bloqueio de tela")), timeout);
         device.findObject(By.text("Bloqueio de tela")).click();
@@ -201,13 +151,13 @@ public class SettingsTest {
         device.wait(Until.hasObject(By.text("Senha")), timeout);
         device.findObject(By.text("Senha")).click();
 
-        device.wait(Until.hasObject(By.text("Continuar")), timeout);
-        device.findObject(By.text("Continuar")).click();
+        device.wait(Until.hasObject(By.text("Não, obrigado.")), timeout);
+        device.findObject(By.text("Não, obrigado.")).click();
 
         device.wait(Until.hasObject(By.res("com.android.settings", "password_entry")), timeout);
         device.findObject(By.res("com.android.settings", "password_entry")).setText("abcde");
 
-        device.findObject(By.text("Continuar")).click();
+        device.findObject(By.text("CONTINUAR")).click();
 
         device.wait(Until.hasObject(By.res("com.android.settings", "password_entry")), timeout);
         device.findObject(By.res("com.android.settings", "password_entry")).setText("abcde");
@@ -215,7 +165,7 @@ public class SettingsTest {
         device.wait(Until.hasObject(By.text("OK")), timeout);
         device.findObject(By.text("OK")).click();
 
-        Thread.sleep(500);
+        Thread.sleep(1000);
         device.sleep();
         Thread.sleep(2000);
 
@@ -225,12 +175,8 @@ public class SettingsTest {
         tela = new UiObject(new UiSelector().resourceId("com.android.systemui:id/notification_stack_scroller"));
         tela.swipeUp(5);
 
-        device.wait(Until.hasObject(By.res("com.android.systemui", "pinEntry")), timeout);
-        device.findObject(By.text("a")).click();
-        device.findObject(By.text("b")).click();
-        device.findObject(By.text("c")).click();
-        device.findObject(By.text("d")).click();
-        device.findObject(By.text("e")).click();
+        device.wait(Until.hasObject(By.res("com.android.systemui:id/passwordEntry")), timeout);
+        device.findObject(By.res("com.android.systemui:id/passwordEntry")).setText("abcde");
 
         String pckLockScreen = device.getCurrentPackageName();
         device.pressEnter();
@@ -246,7 +192,7 @@ public class SettingsTest {
     @Test
     public void PhoneLockWithSwipe() throws Exception{
         util.OpenAppsFromMenu("Configurar");
-        util.SwipeUntilFindElementAndClick("ScrollView", "Segurança");
+        util.SwipeUntilFindElementAndClick("RecyclerView", "Segurança");
 
         device.wait(Until.hasObject(By.text("Bloqueio de tela")), timeout);
         device.findObject(By.text("Bloqueio de tela")).click();
@@ -259,10 +205,10 @@ public class SettingsTest {
         device.wait(Until.hasObject(By.text("Deslizar")), timeout);
         device.findObject(By.text("Deslizar")).click();
 
-        device.wait(Until.hasObject(By.text("Sim, remover")), timeout);
-        device.findObject(By.text("Sim, remover")).click();
+        device.wait(Until.hasObject(By.text("SIM, REMOVER")), timeout);
+        device.findObject(By.text("SIM, REMOVER")).click();
 
-        Thread.sleep(500);
+        Thread.sleep(1000);
         device.sleep();
         Thread.sleep(2000);
 
@@ -282,6 +228,60 @@ public class SettingsTest {
         assertNotEquals("Não desbloqueou a tela!", pckLockScreen, pckUnlocked);
 
     }
+
+    //@Test
+   /* public void CreateAudioProfile() throws Exception{
+        util.OpenAppsFromMenu("Configurar");
+        util.SwipeUntilFindElementAndClick("RecyclerView", "Som");
+        Thread.sleep(500);
+        device.pressMenu();
+        device.findObject(By.text("Adicionar")).click();
+
+        Thread.sleep(1500);
+        device.findObject(By.res("com.android.settings", "edittext")).setText("Automation Profile");
+        device.findObject(By.text("OK")).click();
+
+        Thread.sleep(500);
+        device.findObject(By.desc("Configurações do dispositivo")).click();
+        Thread.sleep(500);
+
+        UiObject volumeAlarme = new UiObject(new UiSelector().resourceId("android:id/seekbar"));
+        volumeAlarme.swipeLeft(100);
+
+        device.findObject(By.text("Toque do telefone")).click();
+        Thread.sleep(1000);
+        device.findObject(By.text("Free Flight")).click();
+
+        device.findObject(By.text("OK")).click();
+        Thread.sleep(1000);
+
+        device.pressBack();
+
+        String profileCreated = device.findObject(By.res("com.android.settings:id/profiles_text")).getText();
+
+        Assert.assertEquals("Não criou o perfil de áudio!", "Automation Profile", profileCreated );
+
+    }*/
+
+    //@Test
+    /*public void ResetAudioProfile() throws Exception{
+        util.OpenAppsFromMenu("Configurar");
+        util.SwipeUntilFindElementAndClick("RecyclerView", "Som e notificação");
+
+        device.wait(Until.hasObject(By.res("com.android.settings:id/profiles_text")), timeout);
+        String profileCreated = device.findObject(By.res("com.android.settings:id/profiles_text")).getText();
+
+        device.pressMenu();
+        device.findObject(By.text("Redefinir")).click();
+        device.wait(Until.hasObject(By.text("OK")), timeout);
+        device.findObject(By.text("OK")).click();
+        device.wait(Until.hasObject(By.res("com.android.settings:id/profiles_text")), timeout);
+        String firstProfile = device.findObject(By.res("com.android.settings:id/profiles_text")).getText();
+
+        Assert.assertNotSame("Não redefeniu os perfis de áudio!", profileCreated, firstProfile);
+
+    }*/
+
 
 
 }
