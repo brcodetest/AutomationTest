@@ -58,14 +58,16 @@ public class CameraTest {
 
         util.OpenAppsFromMenu("Câmera");
 
+
         try {
 
-            device.wait(Until.hasObject(By.desc("Escolher câmera")), timeout);
-            device.findObject(By.desc("Escolher câmera")).click();
+            device.wait(Until.hasObject(By.res("com.mediatek.camera:id/onscreen_camera_picker")), timeout);
+            device.findObject(By.res("com.mediatek.camera:id/onscreen_camera_picker")).click();
 
             Thread.sleep(500);
 
-            util.LongClick("description", "Tirar foto", 250);
+            util.LongClick("resourceId", "com.mediatek.camera:id/shutter_button_photo", 150);
+
 
             int i = 0;
             if (!device.findObject(By.res("com.mediatek.camera", "shutter_button_photo")).isEnabled()) {
@@ -98,7 +100,7 @@ public class CameraTest {
 
             Thread.sleep(300);
 
-            SelectResolutions("320P", "Configurações de vídeo");
+            SelectResolutions("320p", "Configurações de vídeo");
             device.pressBack();
             device.findObject(By.res("com.mediatek.camera", "shutter_button_video")).click(); //Start video recorder
             Thread.sleep(5000);
@@ -107,7 +109,7 @@ public class CameraTest {
 
             Thread.sleep(300);
 
-            SelectResolutions("480P", "Configurações de vídeo");
+            SelectResolutions("480p", "Configurações de vídeo");
             device.pressBack();
             device.findObject(By.res("com.mediatek.camera", "shutter_button_video")).click(); //Start video recorder
             Thread.sleep(5000);
@@ -115,7 +117,7 @@ public class CameraTest {
 
             Thread.sleep(300);
 
-            SelectResolutions("720P", "Configurações de vídeo");
+            SelectResolutions("720p", "Configurações de vídeo");
             device.pressBack();
             device.findObject(By.res("com.mediatek.camera", "shutter_button_video")).click(); //Start video recorder
             Thread.sleep(5000);
@@ -205,7 +207,7 @@ public class CameraTest {
 
             Thread.sleep(500);
 
-            util.LongClick("description", "Tirar foto", 250);
+            util.LongClick("resourceId", "com.mediatek.camera:id/shutter_button_photo", 150);
 
             int i = 0;
             if (!device.findObject(By.res("com.mediatek.camera", "shutter_button_photo")).isEnabled()) {
@@ -239,7 +241,9 @@ public class CameraTest {
 
 
             Thread.sleep(500);
-            SelectResolutions("320P", "Configurações de vídeo");
+            if(!SelectResolutions("320p", "Configurações de vídeo")){
+                Assert.fail("Resoluções de vídeo não estão conforme padrão (320p, 480p, 720p)");
+            }
             device.pressBack();
             device.findObject(By.res("com.mediatek.camera", "shutter_button_video")).click(); //Start video recorder
             Thread.sleep(5000);
@@ -248,7 +252,7 @@ public class CameraTest {
 
             Thread.sleep(300);
 
-            SelectResolutions("480P", "Configurações de vídeo");
+            SelectResolutions("480p", "Configurações de vídeo");
             device.pressBack();
             device.findObject(By.res("com.mediatek.camera", "shutter_button_video")).click(); //Start video recorder
             Thread.sleep(5000);
@@ -256,7 +260,7 @@ public class CameraTest {
 
             Thread.sleep(300);
 
-            SelectResolutions("720P", "Configurações de vídeo");
+            SelectResolutions("720p", "Configurações de vídeo");
             device.pressBack();
             device.findObject(By.res("com.mediatek.camera", "shutter_button_video")).click(); //Start video recorder
             Thread.sleep(5000);
@@ -264,7 +268,7 @@ public class CameraTest {
 
             Thread.sleep(300);
 
-            SelectResolutions("1080P", "Configurações de vídeo");
+            SelectResolutions("1080p", "Configurações de vídeo");
             device.pressBack();
             device.findObject(By.res("com.mediatek.camera", "shutter_button_video")).click(); //Start video recorder
             Thread.sleep(5000);
@@ -370,7 +374,9 @@ public class CameraTest {
     }
 
 
-    private void SelectResolutions(String textResolution, String tipo){
+    private boolean SelectResolutions(String textResolution, String tipo){
+
+        boolean result = true;
         String element = "Tamanho da imagem";
 
         if(tipo == "Configurações de vídeo")
@@ -379,11 +385,11 @@ public class CameraTest {
         }
 
         try{
-
             device.findObject(By.res("com.mediatek.camera", "setting_indicator")).click();
             device.findObject(By.desc(tipo)).click();
 
             Thread.sleep(500);
+
             UiScrollable imageSize = new UiScrollable(new UiSelector().className("android.widget.ListView"));
             imageSize.getChildByText(new UiSelector().className("android.widget.TextView"), element);
             device.findObject(By.clazz("android.widget.TextView").text(element)).click();
@@ -392,10 +398,18 @@ public class CameraTest {
             res.getChildByText(new UiSelector().className("android.widget.TextView"), textResolution);
             device.findObject(By.clazz("android.widget.TextView").textStartsWith(textResolution)).click();
 
+            Thread.sleep(500);
+
         }
         catch (Exception e){
             System.out.print(e.toString());
+
+            if(!device.hasObject(By.text(textResolution)) && tipo.equals("Configurações de vídeo")) {
+                result = false;
+            }
         }
+
+        return result;
 
     }
 
