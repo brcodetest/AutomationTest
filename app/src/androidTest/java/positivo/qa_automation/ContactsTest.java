@@ -73,10 +73,11 @@ public class ContactsTest {
                 device.wait(Until.hasObject(By.text("Nome")), timeout);
                 device.findObject(By.text("Nome")).setText(contactName);
                 device.findObject(By.clazz("android.widget.EditText").text("Telefone")).setText("41999887766");
-                device.findObject(By.clazz("android.widget.EditText").text("E-mail")).setText("automation@positivo.com.br");
                 device.findObject(By.res("com.android.contacts", "menu_save")).click();
 
                 Thread.sleep(2000);
+
+                util.AllowPermissionsIfNeeded(3);
                 device.pressBack();
 
                 //Pesquisa se o contato foi cadastrado
@@ -111,14 +112,14 @@ public class ContactsTest {
         device.wait(Until.hasObject(By.clazz("android.widget.TextView").text("Telefone")), timeout);
         device.findObject(By.clazz("android.widget.TextView").text("Telefone")).click();
 
-        device.wait(Until.hasObject(By.clazz("android.widget.Button").text("Próximo")), timeout);
-        device.findObject(By.clazz("android.widget.Button").text("Próximo")).click();
+        device.wait(Until.hasObject(By.clazz("android.widget.Button").text("PRÓXIMO")), timeout);
+        device.findObject(By.clazz("android.widget.Button").text("PRÓXIMO")).click();
 
         device.wait(Until.hasObject(By.clazz("android.widget.TextView").textContains("Armazenamento")), timeout);
         device.findObject(By.clazz("android.widget.TextView").textContains("Armazenamento")).click();
 
-        device.wait(Until.hasObject(By.clazz("android.widget.Button").text("Próximo")), timeout);
-        device.findObject(By.clazz("android.widget.Button").text("Próximo")).click();
+        device.wait(Until.hasObject(By.clazz("android.widget.Button").text("PRÓXIMO")), timeout);
+        device.findObject(By.clazz("android.widget.Button").text("PRÓXIMO")).click();
 
         device.wait(Until.hasObject(By.clazz("android.widget.TextView").textContains("Automation")), timeout);
         device.findObject(By.clazz("android.widget.TextView").textContains("Automation")).click();
@@ -168,16 +169,20 @@ public class ContactsTest {
         device.wait(Until.hasObject(By.text("Excluir")), timeout);
         device.findObject(By.text("Excluir")).click();
 
-        device.wait(Until.hasObject(By.text("OK")), timeout);
-        device.findObject(By.text("OK")).click();
+        device.wait(Until.hasObject(By.text("EXCLUIR")), timeout);
+        device.findObject(By.text("EXCLUIR")).click();
 
         Thread.sleep(1000);
 
         device.openNotification();
-
         Thread.sleep(1000);
 
-        Assert.assertTrue("Não excluiu o contato!", device.findObject(By.text("Contatos excluídos com sucesso")).isEnabled());
+
+        if(!device.hasObject(By.text("Contatos excluídos com sucesso")))
+        {
+            Assert.fail("Não excluiu o contato ou a mensagem está errada! Experado: 'Contatos excluídos com sucesso'");
+        }
+
 
     }
 
@@ -191,14 +196,20 @@ public class ContactsTest {
         device.findObject(By.clazz("android.widget.TextView").text("Importar/exportar")).click();
 
         Thread.sleep(1000);
-        device.findObject(By.text("Armazenamento interno")).click();
+        device.findObject(By.textStartsWith("Armazenamento interno")).click();
 
-        device.findObject(By.text("Próximo")).click();
+        device.findObject(By.text("PRÓXIMO")).click();
 
         Thread.sleep(1000);
         device.findObject(By.text("Telefone")).click();
 
-        device.findObject(By.text("Próximo")).click();
+        device.findObject(By.text("PRÓXIMO")).click();
+
+        device.wait(Until.hasObject(By.clazz("android.widget.Button").text("OK")), timeout);
+        device.findObject(By.clazz("android.widget.Button").text("OK")).click();
+
+        device.wait(Until.hasObject(By.clazz("android.widget.Button").text("OK")), timeout);
+        device.findObject(By.clazz("android.widget.Button").text("OK")).click();
 
         Thread.sleep(3000);
 
