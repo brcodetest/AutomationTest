@@ -125,9 +125,9 @@ public class Utilities {
 
 
         for(int i = 0; i < repeticoes; i++) {
-            device.wait(Until.hasObject(By.text("Permitir")), timeout);
+            device.wait(Until.hasObject(By.text("PERMITIR")), timeout);
             if (Build.VERSION.SDK_INT >= 23) {
-                UiObject allowPermissions = device.findObject(new UiSelector().text("Permitir"));
+                UiObject allowPermissions = device.findObject(new UiSelector().text("PERMITIR"));
                 if (allowPermissions.exists()) {
                     try {
                         allowPermissions.click();
@@ -233,19 +233,19 @@ public class Utilities {
      * */
     public void LongClick(String findObjectBy, String name, int steps) throws Exception{
 
-        if(findObjectBy == "text"){
+        if(findObjectBy.equals("text")){
             UiObject appAdd = new UiObject(new UiSelector().text(name));
             Rect appButton_rect = appAdd.getBounds();
             device.swipe(appButton_rect.centerX(), appButton_rect.centerY(), appButton_rect.centerX(), appButton_rect.centerY(), steps);
         }
 
-        if(findObjectBy == "description"){
+        if(findObjectBy.equals("description")){
             UiObject appAdd = new UiObject(new UiSelector().description(name));
             Rect appButton_rect = appAdd.getBounds();
             device.swipe(appButton_rect.centerX(), appButton_rect.centerY(), appButton_rect.centerX(), appButton_rect.centerY(), steps);
         }
 
-        if(findObjectBy == "resourceId"){
+        if(findObjectBy.equals("resourceId")){
             UiObject appAdd = new UiObject(new UiSelector().resourceId(name));
             Rect appButton_rect = appAdd.getBounds();
             device.swipe(appButton_rect.centerX(), appButton_rect.centerY(), appButton_rect.centerX(), appButton_rect.centerY(), steps);
