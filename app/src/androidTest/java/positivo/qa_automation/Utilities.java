@@ -166,14 +166,21 @@ public class Utilities {
     }
 
     /**
-     * @param type ScrollView ou ListView
+     * @param elementClass ScrollView, ListView ou RecyclerView
      * @param element Nome do elemento
      * */
-    public void SwipeUntilFindElementAndClick(String type, String element){
+    public void SwipeUntilFindElementAndClick(String elementClass, String element){
         try{
             Thread.sleep(500);
-            UiScrollable settingsItem = new UiScrollable(new UiSelector().className("android.widget." + type));
-            settingsItem.getChildByText(new UiSelector().className("android.widget.LinearLayout"), element);
+
+            if(elementClass.equals("RecyclerView")){
+                UiScrollable settingsItem = new UiScrollable(new UiSelector().className("android.support.v7.widget.RecyclerView"));
+                settingsItem.getChildByText(new UiSelector().className("android.widget.LinearLayout"), element);
+            }
+            else {
+                UiScrollable settingsItem = new UiScrollable(new UiSelector().className("android.widget." + elementClass));
+                settingsItem.getChildByText(new UiSelector().className("android.widget.LinearLayout"), element);
+            }
             device.findObject(By.clazz("android.widget.TextView").text(element)).click();
 
         }
