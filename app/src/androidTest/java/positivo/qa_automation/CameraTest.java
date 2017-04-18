@@ -100,7 +100,9 @@ public class CameraTest {
 
             Thread.sleep(300);
 
-            SelectResolutions("320p", "Configurações de vídeo");
+            if(!SelectResolutions("320p", "Configurações de vídeo")){
+                Assert.fail("Resoluções de vídeo não estão conforme padrão (320p, 480p, 720p)");
+            }
             device.pressBack();
             device.findObject(By.res("com.mediatek.camera", "shutter_button_video")).click(); //Start video recorder
             Thread.sleep(5000);
@@ -197,13 +199,11 @@ public class CameraTest {
     }
 
     @Test
-    public void RearCamera_ContinuousShot(){
+    public void RearCamera_ContinuousShot() throws Exception{
+        util.ClearAppData("com.mediatek.camera");
         util.OpenAppsFromMenu("Câmera");
 
         try {
-
-            device.wait(Until.hasObject(By.desc("Escolher câmera")), timeout);
-            device.findObject(By.desc("Escolher câmera")).click();
 
             Thread.sleep(500);
 
@@ -235,7 +235,9 @@ public class CameraTest {
 
     @Test
     public void RearCamera_RecordVideoWithAllResolutions() throws Exception{
+        util.ClearAppData("com.mediatek.camera");
         util.OpenAppsFromMenu("Câmera");
+
 
         try {
 
