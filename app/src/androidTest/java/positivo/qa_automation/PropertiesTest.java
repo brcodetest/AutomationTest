@@ -95,7 +95,7 @@ public class PropertiesTest {
 
     }
 
-    @Test
+    /*@Test
     public void CheckModelNumberInAbout() throws Exception{
         String modelQuantum = "";
         String modelPositivo = "";
@@ -136,7 +136,7 @@ public class PropertiesTest {
 
         Assert.assertEquals("MTP label diferente do numero do modelo!", modelNumber, mtpLabel);
 
-    }
+    }*/
 
 
 }
