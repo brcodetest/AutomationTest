@@ -18,6 +18,7 @@ import org.junit.runners.Suite;
         AlarmTest.class,
         CameraTest.class,
         WifiTest.class,
+        DataCall.class,
         ContactsTest.class,
         HomeTest.class,
         MultimediaTest.class,
@@ -31,4 +32,5 @@ public class AllTests  extends TestSuite{
     public static Test suite(){
         return new TestSuiteBuilder(AllTests.class).includeAllPackagesUnderHere().build();
     }
+
 }
