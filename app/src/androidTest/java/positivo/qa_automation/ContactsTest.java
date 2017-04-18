@@ -53,47 +53,42 @@ public class ContactsTest {
 
     @Test
     public void AddNewContact() throws Exception{
+        util.ClearAppData("com.android.contacts");
         util.OpenAppsFromMenu("Contatos");
         device.wait(Until.hasObject(By.res("com.android.contacts", "floating_action_button")), timeout);
         UiObject2 addNewContact = device.findObject(By.res("com.android.contacts", "floating_action_button"));
         addNewContact.click();
 
-        try{
-            device.wait(Until.hasObject(By.clazz("android.widget.TextView").text("Google")), timeout);
-            if (device.findObject(By.clazz("android.widget.TextView").text("Google")).isEnabled()) {
-                device.findObject(By.clazz("android.widget.TextView").text("Telefone")).click();
-            }
-        }
-        catch (Exception e)
-        {
-            Assume.assumeTrue(1 == 1);
-        }
-        finally {
-                //Cadastra novo contato
-                device.wait(Until.hasObject(By.text("Nome")), timeout);
-                device.findObject(By.text("Nome")).setText(contactName);
-                device.findObject(By.clazz("android.widget.EditText").text("Telefone")).setText("41999887766");
-                device.findObject(By.res("com.android.contacts", "menu_save")).click();
+        Thread.sleep(1000);
 
-                Thread.sleep(2000);
+        device.findObject(By.clazz("android.widget.TextView").text("Telefone")).click();
 
-                util.AllowPermissionsIfNeeded(3);
-                device.pressBack();
+        //Cadastra novo contato
+        device.wait(Until.hasObject(By.text("Nome")), timeout);
+        device.pressBack();
+        device.findObject(By.text("Nome")).setText(contactName);
+        device.findObject(By.clazz("android.widget.EditText").text("Telefone")).setText("41999887766");
+        device.findObject(By.res("com.android.contacts", "menu_save")).click();
 
-                //Pesquisa se o contato foi cadastrado
-                device.wait(Until.hasObject(By.res("com.android.contacts", "menu_search")), timeout);
-                device.findObject(By.res("com.android.contacts", "menu_search")).click();
+        Thread.sleep(2000);
 
-                device.wait(Until.hasObject(By.res("com.android.contacts", "search_view")), timeout);
-                device.findObject(By.res("com.android.contacts", "search_view")).setText(contactName);
+        util.AllowPermissionsIfNeeded(3);
+        device.pressBack();
 
-                device.wait(Until.hasObject(By.res("com.android.contacts", "cliv_name_textview")), timeout);
-                UiObject2 searchContact = device.findObject(By.res("com.android.contacts", "cliv_name_textview"));
+        //Pesquisa se o contato foi cadastrado
+        device.wait(Until.hasObject(By.res("com.android.contacts", "menu_search")), timeout);
+        device.findObject(By.res("com.android.contacts", "menu_search")).click();
 
-                String result = searchContact.getText();
-                Assert.assertEquals("Nome do contato diferente do esperado. Expected: " + result + ", found: " + contactName, result, contactName);
+        device.wait(Until.hasObject(By.res("com.android.contacts", "search_view")), timeout);
+        device.findObject(By.res("com.android.contacts", "search_view")).setText(contactName);
 
-            }
+        device.wait(Until.hasObject(By.res("com.android.contacts", "cliv_name_textview")), timeout);
+        UiObject2 searchContact = device.findObject(By.res("com.android.contacts", "cliv_name_textview"));
+
+        String result = searchContact.getText();
+        Assert.assertEquals("Nome do contato diferente do esperado. Expected: " + result + ", found: " + contactName, result, contactName);
+
+
     }
 
     @Test
