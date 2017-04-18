@@ -73,7 +73,7 @@ public class MultimediaTest {
                 device.findObject(By.text("Pesquisar ou digitar URL")).setText("http://gsmworld.mobi/blm/downloads/music.mp3");
                 device.pressEnter();
 
-                Thread.sleep(1000);
+                Thread.sleep(2000);
 
                 if(!device.hasObject(By.desc("fazer o download da mídia controle de mídia")))
                 {
@@ -230,16 +230,20 @@ public class MultimediaTest {
         stop = new UiObject(new UiSelector().resourceId("com.android.soundrecorder:id/stopButton"));
         stop.click();
 
+        String recordName = device.findObject(By.res("com.android.soundrecorder:id/recordingFileName")).getText();
+
         device.wait(Until.hasObject(By.text("SALVAR")), 25000);
         device.findObject(By.text("SALVAR")).click();
 
         device.wait(Until.hasObject(By.res("com.android.soundrecorder", "fileListButton")), timeout);
         device.findObject(By.res("com.android.soundrecorder", "fileListButton")).click();
 
-        if(!device.hasObject(By.textEndsWith(".3gpp")))
-        {
-            Assert.fail("Não encontrou a gravação");
-        }
+        Thread.sleep(1000);
+
+        String fileName = device.findObject(By.res("com.android.soundrecorder:id/record_file_name")).getText();
+
+        Assert.assertEquals("Não encontrou a gravação!", recordName, fileName);
+
 
     }
 
