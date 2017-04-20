@@ -27,7 +27,8 @@ import org.junit.runners.MethodSorters;
 /**
  * Created by Brdroid on 19/04/2017.
  */
-
+@RunWith(AndroidJUnit4.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ActivateWifiTest {
 
     private UiDevice device;
