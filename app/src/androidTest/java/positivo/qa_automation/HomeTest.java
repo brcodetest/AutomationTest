@@ -227,8 +227,8 @@ public class HomeTest {
 
         device.findObject(By.text("Widgets")).click();
 
-        UiScrollable imageSize = new UiScrollable(new UiSelector().className("android.support.v7.widget.RecyclerView"));
-        imageSize.getChildByText(new UiSelector().className("android.widget.TextView"), "Configurações");
+        UiScrollable widgetScroll = new UiScrollable(new UiSelector().className("android.support.v7.widget.RecyclerView"));
+        widgetScroll.getChildByText(new UiSelector().className("android.widget.TextView"), "Configurações");
 
         util.LongClick("text", "Atalho para as configurações", 100);
 
@@ -245,6 +245,7 @@ public class HomeTest {
 
     @Test
     public void ChangeWallpaper() throws Exception{
+        Thread.sleep(500);
         device.pressHome();
         device.pressMenu();
         device.findObject(By.text("Planos de fundo")).click();
