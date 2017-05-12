@@ -57,7 +57,7 @@ public class CalculatorTest {
 
         device.waitForIdle(1000);
 
-        UiObject2 resultText = device.findObject(By.clazz("android.widget.EditText"));
+        UiObject2 resultText = device.findObject(By.res("com.google.android.calculator:id/result"));
         String result = resultText.getText();
 
         assertTrue("Calculadora retornou valor diferente do esperado!", result.equals("18"));
