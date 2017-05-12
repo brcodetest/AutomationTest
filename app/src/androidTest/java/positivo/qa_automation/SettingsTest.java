@@ -178,6 +178,16 @@ public class SettingsTest {
         device.findObject(By.desc("Enter")).click();
 
         Thread.sleep(1000);
+
+
+        device.findObject(By.text("Bloqueio de tela")).click();
+        Thread.sleep(200);
+        device.findObject(By.res("com.android.settings", "password_entry")).setText("1234");
+        device.pressEnter();
+        device.findObject(By.text("Nenhuma")).click();
+        Thread.sleep(200);
+        device.findObject(By.text("Sim, remover")).click();
+
         device.pressHome();
         String pckUnlocked = device.getCurrentPackageName();
 
@@ -192,11 +202,6 @@ public class SettingsTest {
 
         device.wait(Until.hasObject(By.text("Bloqueio de tela")), timeout);
         device.findObject(By.text("Bloqueio de tela")).click();
-
-        device.wait(Until.hasObject(By.res("com.android.settings", "password_entry")), timeout);
-        device.findObject(By.res("com.android.settings", "password_entry")).setText("1234");
-
-        device.pressEnter();
 
         device.wait(Until.hasObject(By.text("Senha")), timeout);
         device.findObject(By.text("Senha")).click();
@@ -215,7 +220,11 @@ public class SettingsTest {
         device.wait(Until.hasObject(By.text("OK")), timeout);
         device.findObject(By.text("OK")).click();
 
-        Thread.sleep(500);
+        device.wait(Until.hasObject(By.text("Concluído")), timeout);
+        device.findObject(By.text("Concluído")).click();
+
+        Thread.sleep(1000);
+
         device.sleep();
         Thread.sleep(2000);
 
@@ -225,17 +234,22 @@ public class SettingsTest {
         tela = new UiObject(new UiSelector().resourceId("com.android.systemui:id/notification_stack_scroller"));
         tela.swipeUp(5);
 
-        device.wait(Until.hasObject(By.res("com.android.systemui", "pinEntry")), timeout);
-        device.findObject(By.text("a")).click();
-        device.findObject(By.text("b")).click();
-        device.findObject(By.text("c")).click();
-        device.findObject(By.text("d")).click();
-        device.findObject(By.text("e")).click();
+       device.findObject(By.res("com.android.systemui:id/passwordEntry")).setText("abcde");
 
         String pckLockScreen = device.getCurrentPackageName();
         device.pressEnter();
 
         Thread.sleep(1000);
+
+        device.findObject(By.text("Bloqueio de tela")).click();
+        Thread.sleep(200);
+        device.findObject(By.res("com.android.settings", "password_entry")).setText("abcde");
+        device.pressEnter();
+        device.findObject(By.text("Nenhuma")).click();
+        Thread.sleep(200);
+        device.findObject(By.text("Sim, remover")).click();
+
+
         device.pressHome();
         String pckUnlocked = device.getCurrentPackageName();
 
@@ -251,16 +265,10 @@ public class SettingsTest {
         device.wait(Until.hasObject(By.text("Bloqueio de tela")), timeout);
         device.findObject(By.text("Bloqueio de tela")).click();
 
-        device.wait(Until.hasObject(By.res("com.android.settings", "password_entry")), timeout);
-        device.findObject(By.res("com.android.settings", "password_entry")).setText("abcde");
-
         device.pressEnter();
 
         device.wait(Until.hasObject(By.text("Deslizar")), timeout);
         device.findObject(By.text("Deslizar")).click();
-
-        device.wait(Until.hasObject(By.text("Sim, remover")), timeout);
-        device.findObject(By.text("Sim, remover")).click();
 
         Thread.sleep(500);
         device.sleep();
