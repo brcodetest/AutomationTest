@@ -99,8 +99,8 @@ public class SettingsTest {
 
         device.findObject(By.text("Toque do telefone")).click();
         Thread.sleep(1000);
-        device.findObject(By.text("Free Flight")).click();
-
+        util.SwipeUntilFindElementAndClick("ListView", "Cygnus");
+        Thread.sleep(200);
         device.findObject(By.text("OK")).click();
         Thread.sleep(1000);
 
