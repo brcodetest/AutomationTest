@@ -39,26 +39,33 @@ public class CalculatorTest {
     @Test
     public void MakeBasicOperations() throws Exception {
 
+        util.ClearAppData("com.google.android.calculator");
+        util.ClearAppData("com.google.android.calculator2");
+
         util.OpenAppsFromMenu("Calculadora");
 
-        device.wait(Until.hasObject(By.text("9")), 1000);
+        Thread.sleep(1000);
 
-        UiObject2 buttonNine = device.findObject(By.text("9"));
-
-        buttonNine.click();
+        device.findObject(By.text("9")).click();
 
         device.findObject(By.desc("mais")).click();
 
-        buttonNine.click();
+        device.findObject(By.text("9")).click();
 
-        UiObject2 buttonEquals = device.findObject(By.desc("igual"));
+        device.findObject(By.desc("igual")).click();
 
-        buttonEquals.click();
+        Thread.sleep(1000);
 
-        device.waitForIdle(1000);
+        String result;
 
-        UiObject2 resultText = device.findObject(By.res("com.google.android.calculator:id/result"));
-        String result = resultText.getText();
+        if(!device.hasObject(By.res("com.android.calculator2:id/formula")))
+        {
+            result = device.findObject(By.res("com.android.calculator2:id/result")).getText();
+        }
+        else
+        {
+            result = device.findObject(By.res("com.android.calculator2:id/formula")).getText();
+        }
 
         assertTrue("Calculadora retornou valor diferente do esperado!", result.equals("18"));
 
