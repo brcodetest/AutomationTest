@@ -61,14 +61,22 @@ public class MultimediaTest {
                 device.wait(Until.hasObject(By.text("Aceitar e continuar")), timeout);
                 device.findObject(By.text("Aceitar e continuar")).click();
 
+                Thread.sleep(200);
+                if(!device.hasObject(By.text("Não, obrigado"))){
+                    device.findObject(By.text("Próxima")).click();
+                }
                 device.wait(Until.hasObject(By.text("Não, obrigado")), timeout);
                 device.findObject(By.text("Não, obrigado")).click();
 
+                Thread.sleep(200);
+                if(!device.hasObject(By.res("com.android.chrome:id/url_bar"))){
+                    device.findObject(By.res("com.android.chrome:id/search_box_text")).click();
+                }
 
-                device.wait(Until.hasObject(By.text("Pesquisar ou digitar URL")), timeout);
-                device.findObject(By.text("Pesquisar ou digitar URL")).click();
+                device.wait(Until.hasObject(By.res("com.android.chrome:id/url_bar")), timeout);
+                device.findObject(By.res("com.android.chrome:id/url_bar")).click();
                 Thread.sleep(500);
-                device.findObject(By.text("Pesquisar ou digitar URL")).setText("http://gsmworld.mobi/blm/downloads/music.mp3");
+                device.findObject(By.res("com.android.chrome:id/url_bar")).setText("http://gsmworld.mobi/blm/downloads/music.mp3");
                 device.pressEnter();
 
                 Thread.sleep(1000);
@@ -193,6 +201,8 @@ public class MultimediaTest {
         util.LongClick("text", "music.mp3", 100);
 
         device.findObject(By.desc("Excluir")).click();
+
+        util.AllowPermissionsIfNeeded(1);
 
         device.wait(Until.hasObject(By.text("OK")), timeout);
         device.findObject(By.text("OK")).click();
