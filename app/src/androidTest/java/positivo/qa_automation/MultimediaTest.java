@@ -68,18 +68,20 @@ public class MultimediaTest {
                 device.wait(Until.hasObject(By.text("Não, obrigado")), timeout);
                 device.findObject(By.text("Não, obrigado")).click();
 
-                Thread.sleep(200);
-                if(!device.hasObject(By.res("com.android.chrome:id/url_bar"))){
-                    device.findObject(By.res("com.android.chrome:id/search_box_text")).click();
-                }
 
-                device.wait(Until.hasObject(By.res("com.android.chrome:id/url_bar")), timeout);
-                device.findObject(By.res("com.android.chrome:id/url_bar")).click();
+                device.wait(Until.hasObject(By.text("Pesquisar ou digitar URL")), timeout);
+                device.findObject(By.text("Pesquisar ou digitar URL")).click();
                 Thread.sleep(500);
-                device.findObject(By.res("com.android.chrome:id/url_bar")).setText("http://gsmworld.mobi/blm/downloads/music.mp3");
+                device.findObject(By.text("Pesquisar ou digitar URL")).setText("http://gsmworld.mobi/blm/downloads/music.mp3");
                 device.pressEnter();
 
-                Thread.sleep(1000);
+                Thread.sleep(2000);
+
+                if(!device.hasObject(By.desc("fazer o download da mídia controle de mídia")))
+                {
+                    Assert.fail("Versão muito antiga do Chrome!!! Atualize também o Google Play Services. Outros testes de multimedia talvez falharam. ");
+                }
+
                 device.wait(Until.hasObject(By.desc("reproduzir iniciar reprodução")), 10000);
                 device.findObject(By.desc("reproduzir iniciar reprodução")).click();
 
@@ -92,9 +94,9 @@ public class MultimediaTest {
 
                 device.findObject(By.desc("fazer o download da mídia controle de mídia")).click();
 
-                device.wait(Until.hasObject(By.text("Atualizar permissões")), timeout);
-                if(device.hasObject(By.text("Atualizar permissões"))) {
-                    device.findObject(By.text("Atualizar permissões")).click();
+                device.wait(Until.hasObject(By.text("ATUALIZAR PERMISSÕES")), timeout);
+                if(device.hasObject(By.text("ATUALIZAR PERMISSÕES"))) {
+                    device.findObject(By.text("ATUALIZAR PERMISSÕES")).click();
                     util.AllowPermissionsIfNeeded(1);
                 }
 
@@ -103,10 +105,10 @@ public class MultimediaTest {
                 device.wait(Until.hasObject(By.desc("Pausar")), timeout);
                 device.findObject(By.desc("Pausar")).click();
 
-                device.wait(Until.hasObject(By.text("Download concluído")), 20000);
+                device.wait(Until.hasObject(By.text("Download concluído")), 25000);
 
                 util.OpenAppsFromMenu("Gerenciador de arquivos");
-                device.findObject(By.text("Armazenamento interno")).click();
+                device.findObject(By.textStartsWith("Armazenamento interno")).click();
                 util.SwipeUntilFindElementAndClick("ListView", "Download");
 
 
@@ -133,11 +135,11 @@ public class MultimediaTest {
 
             if (util.CheckInternetConnection(this.context) == true) {
                 util.OpenAppsFromMenu("Chrome");
-                device.wait(Until.hasObject(By.text("Aceitar e continuar")), timeout);
-                device.findObject(By.text("Aceitar e continuar")).click();
+                device.wait(Until.hasObject(By.text("ACEITAR E CONTINUAR")), timeout);
+                device.findObject(By.text("ACEITAR E CONTINUAR")).click();
 
-                device.wait(Until.hasObject(By.text("Não, obrigado")), timeout);
-                device.findObject(By.text("Não, obrigado")).click();
+                device.wait(Until.hasObject(By.text("NÃO, OBRIGADO")), timeout);
+                device.findObject(By.text("NÃO, OBRIGADO")).click();
 
                 device.wait(Until.hasObject(By.text("Pesquisar ou digitar URL")), timeout);
                 device.findObject(By.text("Pesquisar ou digitar URL")).click();
@@ -167,7 +169,7 @@ public class MultimediaTest {
     public void AudioSuspendAndResume()  throws Exception{
 
         util.OpenAppsFromMenu("Gerenciador de arquivos");
-        device.findObject(By.text("Armazenamento interno")).click();
+        device.findObject(By.textStartsWith("Armazenamento interno")).click();
         util.SwipeUntilFindElementAndClick("ListView", "Download");
 
         if(!device.hasObject(By.text("music.mp3")))
@@ -175,22 +177,31 @@ public class MultimediaTest {
             Assert.fail("Não encontrou a música!");
         }
         device.findObject(By.text("music.mp3")).click();
-
         Thread.sleep(1000);
-        device.waitForWindowUpdate("com.google.android.music", timeout);
-        device.findObject(By.res("com.google.android.music","play_pause_button")).click();
+
+        if(device.hasObject(By.text("Google Play Música"))){
+         device.findObject(By.text("Google Play Música")).click();
+        }
+
+        device.findObject(By.text("SÓ UMA VEZ")).click();
 
         Thread.sleep(2000);
-        device.findObject(By.res("com.google.android.music","play_pause_button")).click();
+        device.findObject(By.res("com.google.android.music:id/play_pause_button")).click();
 
-        Assert.assertTrue("Não tocou a música!", device.findObject(By.text("Working Life")).isEnabled());
+        Thread.sleep(2000);
+        device.findObject(By.res("com.google.android.music:id/play_pause_button")).click();
+
+        if(!device.hasObject(By.text("Working Life")))
+        {
+            Assert.fail("Não encontrou a música!");
+        }
 
     }
 
     @Test
     public void DeleteSongs() throws Exception {
         util.OpenAppsFromMenu("Gerenciador de arquivos");
-        device.findObject(By.text("Armazenamento interno")).click();
+        device.findObject(By.textStartsWith("Armazenamento interno")).click();
         util.SwipeUntilFindElementAndClick("ListView", "Download");
 
         if(!device.hasObject(By.text("music.mp3")))
@@ -228,16 +239,20 @@ public class MultimediaTest {
         stop = new UiObject(new UiSelector().resourceId("com.android.soundrecorder:id/stopButton"));
         stop.click();
 
-        device.wait(Until.hasObject(By.text("Salvar")), 25000);
-        device.findObject(By.text("Salvar")).click();
+        String recordName = device.findObject(By.res("com.android.soundrecorder:id/recordingFileName")).getText();
+
+        device.wait(Until.hasObject(By.text("SALVAR")), 25000);
+        device.findObject(By.text("SALVAR")).click();
 
         device.wait(Until.hasObject(By.res("com.android.soundrecorder", "fileListButton")), timeout);
         device.findObject(By.res("com.android.soundrecorder", "fileListButton")).click();
 
-        if(!device.hasObject(By.textStartsWith("record")) && !device.hasObject(By.textEndsWith(".3gpp")))
-        {
-            Assert.fail("Não encontrou a gravação");
-        }
+        Thread.sleep(1000);
+
+        String fileName = device.findObject(By.res("com.android.soundrecorder:id/record_file_name")).getText();
+
+        Assert.assertEquals("Não encontrou a gravação!", recordName, fileName);
+
 
     }
 
@@ -284,7 +299,7 @@ public class MultimediaTest {
         Thread.sleep(1000);
 
         util.OpenAppsFromMenu("Gerenciador de arquivos");
-        device.findObject(By.text("Armazenamento interno")).click();
+        device.findObject(By.textStartsWith("Armazenamento interno")).click();
         util.SwipeUntilFindElementAndClick("ListView", "DCIM");
         device.findObject(By.text("Camera")).click();
 
