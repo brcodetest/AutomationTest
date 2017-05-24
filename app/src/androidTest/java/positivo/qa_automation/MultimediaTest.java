@@ -63,8 +63,12 @@ public class MultimediaTest {
                 device.wait(Until.hasObject(By.text("ACEITAR E CONTINUAR")), timeout);
                 device.findObject(By.text("ACEITAR E CONTINUAR")).click();
 
-                device.wait(Until.hasObject(By.text("NÃO, OBRIGADO")), timeout);
-                device.findObject(By.text("NÃO, OBRIGADO")).click();
+                Thread.sleep(200);
+                if(!device.hasObject(By.text("Não, obrigado"))){
+                    device.findObject(By.text("Próxima")).click();
+                }
+                device.wait(Until.hasObject(By.text("Não, obrigado")), timeout);
+                device.findObject(By.text("Não, obrigado")).click();
 
 
                 device.wait(Until.hasObject(By.text("Pesquisar ou digitar URL")), timeout);
