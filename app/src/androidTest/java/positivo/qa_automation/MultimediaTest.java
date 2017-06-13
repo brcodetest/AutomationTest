@@ -55,6 +55,7 @@ public class MultimediaTest {
     public void AudioStreamingAndDownload() throws Exception {
 
         util.ClearAppData("com.android.chrome");
+        //util.AdbCommand("adb shell settings put system screen_off_timeout 500000");
 
         try {
 
@@ -64,11 +65,11 @@ public class MultimediaTest {
                 device.findObject(By.text("ACEITAR E CONTINUAR")).click();
 
                 Thread.sleep(200);
-                if(!device.hasObject(By.text("Não, obrigado"))){
+                if(!device.hasObject(By.res("com.android.chrome:id/negative_button"))){
                     device.findObject(By.text("Próxima")).click();
                 }
-                device.wait(Until.hasObject(By.text("Não, obrigado")), timeout);
-                device.findObject(By.text("Não, obrigado")).click();
+                device.wait(Until.hasObject(By.res("com.android.chrome:id/negative_button")), timeout);
+                device.findObject(By.res("com.android.chrome:id/negative_button")).click();
 
 
                 device.wait(Until.hasObject(By.text("Pesquisar ou digitar URL")), timeout);
@@ -77,7 +78,7 @@ public class MultimediaTest {
                 device.findObject(By.text("Pesquisar ou digitar URL")).setText("http://gsmworld.mobi/blm/downloads/music.mp3");
                 device.pressEnter();
 
-                Thread.sleep(2000);
+                Thread.sleep(10000);
 
                 if(!device.hasObject(By.desc("fazer o download da mídia controle de mídia")))
                 {
@@ -102,7 +103,29 @@ public class MultimediaTest {
                 device.wait(Until.hasObject(By.desc("Pausar")), timeout);
                 device.findObject(By.desc("Pausar")).click();
 
-                device.wait(Until.hasObject(By.text("Download concluído")), 25000);
+
+                while(!device.hasObject(By.text("Download concluído"))) {
+
+                    if(device.hasObject(By.text("Download concluído")))
+                    {
+                        break;
+                    }
+
+                    if(device.hasObject(By.textEndsWith("minuto restante")) || device.hasObject(By.textEndsWith("minutos restantes"))){
+                        Thread.sleep(60000);
+                    }
+                    else{
+                        try{
+                        String tempoRestante = device.findObject(By.textEndsWith("restantes")).getText();
+                        String[] splitTempo = tempoRestante.split(" ");
+                        int segundos = Integer.parseInt(splitTempo[0] + "000");
+                        Thread.sleep(segundos);
+                        }
+                        catch (Exception e){
+                            Assert.assertTrue(true);
+                        }
+                    }
+                }
 
                 util.OpenAppsFromMenu("Gerenciador de arquivos");
                 device.findObject(By.textStartsWith("Armazenamento interno")).click();
@@ -135,8 +158,8 @@ public class MultimediaTest {
                 device.wait(Until.hasObject(By.text("ACEITAR E CONTINUAR")), timeout);
                 device.findObject(By.text("ACEITAR E CONTINUAR")).click();
 
-                device.wait(Until.hasObject(By.text("NÃO, OBRIGADO")), timeout);
-                device.findObject(By.text("NÃO, OBRIGADO")).click();
+                device.wait(Until.hasObject(By.res("com.android.chrome:id/negative_button")), timeout);
+                device.findObject(By.res("com.android.chrome:id/negative_button")).click();
 
                 device.wait(Until.hasObject(By.text("Pesquisar ou digitar URL")), timeout);
                 device.findObject(By.text("Pesquisar ou digitar URL")).click();
@@ -182,11 +205,7 @@ public class MultimediaTest {
 
         device.findObject(By.text("SÓ UMA VEZ")).click();
 
-        Thread.sleep(2000);
-        device.findObject(By.res("com.google.android.music:id/play_pause_button")).click();
-
-        Thread.sleep(2000);
-        device.findObject(By.res("com.google.android.music:id/play_pause_button")).click();
+        Thread.sleep(3000);
 
         if(!device.hasObject(By.text("Working Life")))
         {
@@ -198,6 +217,7 @@ public class MultimediaTest {
     @Test
     public void DeleteSongs() throws Exception {
         util.OpenAppsFromMenu("Gerenciador de arquivos");
+        Thread.sleep(2000);
         device.findObject(By.textStartsWith("Armazenamento interno")).click();
         util.SwipeUntilFindElementAndClick("ListView", "Download");
 
