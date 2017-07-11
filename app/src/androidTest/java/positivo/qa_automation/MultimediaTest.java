@@ -25,8 +25,6 @@ import android.support.test.uiautomator.UiScrollable;
 import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-
 import junit.framework.Assert;
 import static org.junit.Assert.assertTrue;
 
@@ -55,7 +53,6 @@ public class MultimediaTest {
     public void AudioStreamingAndDownload() throws Exception {
 
         util.ClearAppData("com.android.chrome");
-        //util.AdbCommand("adb shell settings put system screen_off_timeout 500000");
 
         try {
 
@@ -89,6 +86,11 @@ public class MultimediaTest {
                 device.findObject(By.desc("reproduzir iniciar reprodução")).click();
 
                 Thread.sleep(5000);
+
+                if(!device.hasObject(By.desc("fazer o download da mídia controle de mídia")))
+                {
+                    Assert.fail("Versão muito antiga do Chrome!!! Atualize também o Google Play Services. Outros testes de multimedia talvez falharam. ");
+                }
 
                 device.findObject(By.desc("fazer o download da mídia controle de mídia")).click();
 
@@ -229,6 +231,8 @@ public class MultimediaTest {
         util.LongClick("text", "music.mp3", 100);
 
         device.findObject(By.desc("Excluir")).click();
+
+        util.AllowPermissionsIfNeeded(1);
 
         device.wait(Until.hasObject(By.text("OK")), timeout);
         device.findObject(By.text("OK")).click();
