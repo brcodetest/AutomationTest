@@ -256,7 +256,7 @@ public class HomeTest {
         wp.swipeLeft(100);
         wp.swipeLeft(100);
 
-        device.findObject(By.text("Holo Espiral")).click();
+        device.findObject(By.text("Balões")).click();
 
         Thread.sleep(500);
 
